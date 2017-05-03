@@ -1,0 +1,6 @@
+var twitchbot = twitchbot || {};
+
+twitchbot.oauth = {
+	username: '<USERNAME>',
+	password: '<OAUTH KEY>'
+};
