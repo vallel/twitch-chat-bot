@@ -42,12 +42,12 @@ var twitchbot = twitchbot || {};
             if (message.indexOf('!songrequest') === 0) {
                 var query = message.replace('!songrequest', '').trim();
                 if (query) {
-                    var songUrl = 'https://www.youtube.com/embed?listType=search&list=' + query,
+                    var video = twitchbot.youtube.search(query),
                         user = userstate['display-name'];
 
-                    twitchbot.data.addSongRequest(user, songUrl);
+                    twitchbot.data.addSongRequest(user, video);
 
-                    client.say(channel, 'La canción ' + query + ' ha sido agregada a la lista de reproducción por ' + user);
+                    client.say(channel, 'La canción ' + video.title + ' ha sido agregada a la lista de reproducción por ' + user);
                 }
             }
             if (message.indexOf('!time') === 0) {

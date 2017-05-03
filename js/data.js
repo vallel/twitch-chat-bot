@@ -14,10 +14,10 @@ var twitchbot = twitchbot || {};
             storeData('songrequests', data);
         },
 
-        addSongRequest: function(user, songUrl) {
+        addSongRequest: function(user, video) {
             var data = {
                 user: user,
-                song: songUrl,
+                video: video,
                 date: new Date()
             };
 

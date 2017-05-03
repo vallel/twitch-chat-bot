@@ -2,10 +2,70 @@ var twitchbot = twitchbot || {};
 
 (function() {
     twitchbot.youtube = {
+        player,
+        videoDone: false,
+
         init: function() {
-            
+            gapi.load('client', function() {
+                gapi.client.init(
+                    {'apiKey': twitchbot.oauth.youtubeKey}
+                ).then(function() {
+                    gapi.client.load('youtube', 'v3', function() {});
+                });
+            });
+        },
+
+        search: function(query) {
+            var request = gapi.client.youtube.search.list({
+                q: query,
+                part: 'snippet',
+                type: 'video',
+                videoSyndicated: true,
+                videoEmbeddable: true,
+                videoDuration: 'medium'
+            });
+
+            var video = null;
+
+            request.execute(function (response) {
+                if (response.result.items.length) {
+                    var item = response.result.items[0];
+                    
+                    video = {
+                        id: item.id.videoId,
+                        title: item.snippet.title
+                    };
+                }
+            });
+
+            return video;
+        },
+
+        onYouTubeIframeAPIReady: function() {
+            twitchbot.youtube.player = new YT.Player('js-youtube-player');
+            // , {
+            //     height: '390',
+            //     width: '640',
+            //     videoId: 'M7lc1UVf-VE',
+            //     events: {
+            //         'onReady': onPlayerReady,
+            //         'onStateChange': onPlayerStateChange
+            //     }
+            // });
         }
     };
+
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
+
+    function onPlayerStateChange(event) {
+        
+    }
+
+    function stopVideo() {
+        twitchbot.youtube.player.stopVideo();
+    }
 })();
 
 
@@ -20,32 +80,5 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //    after the API code downloads.
 var player;
 function onYouTubeIframeAPIReady() {
-    player = new YT.Player('js-youtube-player', {
-        height: '390',
-        width: '640',
-        videoId: 'M7lc1UVf-VE',
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
-}
-
-// 4. The API will call this function when the video player is ready.
-function onPlayerReady(event) {
-    event.target.playVideo();
-}
-
-// 5. The API calls this function when the player's state changes.
-//    The function indicates that when playing a video (state=1),
-//    the player should play for six seconds and then stop.
-var done = false;
-function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-        setTimeout(stopVideo, 6000);
-        done = true;
-    }
-}
-function stopVideo() {
-    player.stopVideo();
+    twitchbot.youtube.onYouTubeIframeAPIReady();
 }
