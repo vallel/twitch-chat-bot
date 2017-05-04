@@ -15,7 +15,7 @@ var twitchbot = twitchbot || {};
             });
         },
 
-        search: function(query) {
+        search: function(query, callback) {
             var request = gapi.client.youtube.search.list({
                 q: query,
                 part: 'snippet',
@@ -35,10 +35,10 @@ var twitchbot = twitchbot || {};
                         id: item.id.videoId,
                         title: item.snippet.title
                     };
+
+                    callback(video);
                 }
             });
-
-            return video;
         },
 
         onYouTubeIframeAPIReady: function() {
