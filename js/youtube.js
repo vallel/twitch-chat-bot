@@ -42,29 +42,39 @@ var twitchbot = twitchbot || {};
         },
 
         onYouTubeIframeAPIReady: function() {
-            twitchbot.youtube.player = new YT.Player('js-youtube-player');
-            // , {
-            //     height: '390',
-            //     width: '640',
-            //     videoId: 'M7lc1UVf-VE',
-            //     events: {
-            //         'onReady': onPlayerReady,
-            //         'onStateChange': onPlayerStateChange
-            //     }
-            // });
+            twitchbot.youtube.player = new YT.Player('js-youtube-player', {
+                height: '390',
+                width: '640',
+                videoId: '',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
         }
     };
 
     function onPlayerReady(event) {
-        event.target.playVideo();
+        playNextSong();
     }
 
     function onPlayerStateChange(event) {
-        
+        if (event.data == YT.PlayerState.ENDED) {
+          playNextSong();
+        }
     }
 
     function stopVideo() {
         twitchbot.youtube.player.stopVideo();
+    }
+
+    function playNextSong() {
+        var nextSong = twitchbot.data.nextSongRequest();
+
+        if (nextSong) {
+            twitchbot.youtube.player.cueVideoById({videoId: nextSong.video.id});
+            twitchbot.youtube.player.playVideo();
+        }
     }
 })();
 

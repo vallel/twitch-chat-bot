@@ -11,7 +11,7 @@ var twitchbot = twitchbot || {};
         storeSongRequests: function(songRequests) {
             var data = Array.isArray(songRequests) ? songRequests : [songRequests];
 
-            storeData('songrequests', data);
+            storeData('songrequest', data);
         },
 
         addSongRequest: function(user, video) {
