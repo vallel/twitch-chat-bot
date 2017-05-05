@@ -51,6 +51,10 @@ var twitchbot = twitchbot || {};
                     'onStateChange': onPlayerStateChange
                 }
             });
+        },
+
+        nextSong: function() {
+            playNextSong();
         }
     };
 

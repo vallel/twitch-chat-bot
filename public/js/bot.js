@@ -4,6 +4,10 @@ var twitchbot = twitchbot || {};
     twitchbot.bot = {
         client: {},
 
+        countToSkip: 3,
+
+        skips: [],
+
         config: {
             options: {
                 debug: true
@@ -39,11 +43,12 @@ var twitchbot = twitchbot || {};
             // Don't listen to my own messages..
             if (self) return;
 
+            var user = userstate['display-name'];
+
             if (message.indexOf('!songrequest') === 0) {
                 var query = message.replace('!songrequest', '').trim();
                 if (query) {
                     twitchbot.youtube.search(query, function(video) {
-                        var user = userstate['display-name'];
 
                         twitchbot.data.addSongRequest(user, video);
 
@@ -51,9 +56,23 @@ var twitchbot = twitchbot || {};
                     });
                 }
             }
-            if (message.indexOf('!time') === 0) {
-                client.say(channel, 'Llevamos ' + time + ' en linea');
+
+            if (message.indexOf('!skip') === 0) {
+                if (twitchbot.bot.skips.indexOf(user) == -1) {
+                    twitchbot.bot.skips.push(user);
+                    
+                    client.say(channel, user + ' ha votado por saltar la canción actual. Votos: ' + twitchbot.bot.skips.length + '/' + twitchbot.bot.countToSkip);
+
+                    if (twitchbot.bot.skips.length >= twitchbot.bot.countToSkip) {
+                        twitchbot.bot.skips = [];
+                        twitchbot.youtube.nextSong();
+                    }
+                }
             }
+
+            // if (message.indexOf('!time') === 0) {
+            //     client.say(channel, 'Llevamos ' + time + ' en linea');
+            // }
 
         });
 
