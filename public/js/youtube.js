@@ -20,8 +20,8 @@ var twitchbot = twitchbot || {};
                 q: query,
                 part: 'snippet',
                 type: 'video',
-                videoSyndicated: true,
-                videoEmbeddable: true,
+                videoSyndicated: 'any',
+                videoEmbeddable: 'any',
                 videoDuration: 'medium'
             });
 

@@ -50,7 +50,11 @@ var twitchbot = twitchbot || {};
                 if (query) {
                     twitchbot.youtube.search(query, function(video) {
 
+                        var songs = twitchbot.data.getSongRequests();
                         twitchbot.data.addSongRequest(user, video);
+                        if (!songs) {
+                            twitchbot.youtube.nextSong();
+                        }
 
                         client.say(channel, 'La canción ' + video.title + ' ha sido agregada a la lista de reproducción por ' + user);
                     });
@@ -70,9 +74,12 @@ var twitchbot = twitchbot || {};
                 }
             }
 
-            // if (message.indexOf('!time') === 0) {
-            //     client.say(channel, 'Llevamos ' + time + ' en linea');
-            // }
+            if (message.indexOf('!currentsong') === 0) {
+                var currentSong = twitchbot.data.getCurrentSong();
+                if (currentSong) {
+                    client.say(channel, "La canción actual es " + currentSong.video.title + " y fue agregada por " + currentSong.user);
+                }
+            }
 
         });
 

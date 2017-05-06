@@ -29,8 +29,17 @@ var twitchbot = twitchbot || {};
                 nextSong = songs.shift();
 
             twitchbot.data.storeSongRequests(songs);
+            twitchbot.data.setCurrentSong(nextSong);
 
             return nextSong;
+        },
+
+        setCurrentSong: function(song) {
+            storeData('currentSong', song);
+        },
+
+        getCurrentSong: function() {
+            return getData('currentSong');
         }
     };
 
