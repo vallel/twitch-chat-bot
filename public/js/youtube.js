@@ -18,11 +18,11 @@ var twitchbot = twitchbot || {};
         search: function(query, callback) {
             var request = gapi.client.youtube.search.list({
                 q: query,
-                part: 'snippet',
-                type: 'video',
-                videoSyndicated: 'any',
-                videoEmbeddable: 'any',
-                videoDuration: 'medium'
+                part: 'snippet'
+                // type: 'video',
+                // videoSyndicated: 'any',
+                // videoEmbeddable: 'any',
+                // videoDuration: 'medium'
             });
 
             var video = null;

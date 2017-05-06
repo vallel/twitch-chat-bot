@@ -45,8 +45,10 @@ var twitchbot = twitchbot || {};
 
             var user = userstate['display-name'];
 
-            if (message.indexOf('!songrequest') === 0) {
+            if (message.indexOf('!songrequest') === 0 || message.indexOf('!sr') === 0) {
                 var query = message.replace('!songrequest', '').trim();
+                query = message.replace('!sr', '').trim();
+                
                 if (query) {
                     twitchbot.youtube.search(query, function(video) {
 
