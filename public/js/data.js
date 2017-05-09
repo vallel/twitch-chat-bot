@@ -40,6 +40,15 @@ var twitchbot = twitchbot || {};
 
         getCurrentSong: function() {
             return getData('currentSong');
+        },
+
+        addVeto: function(song) {
+            var vetoList = twitchbot.data.getVetoList();
+            storeData('songsVeto', song.video.id);
+        },
+
+        getVetoList: function() {
+            return getData('songsVeto');
         }
     };
 

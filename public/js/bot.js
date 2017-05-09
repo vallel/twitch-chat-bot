@@ -83,6 +83,14 @@ var twitchbot = twitchbot || {};
                 }
             }
 
+            if (message.indexOf('!veto') === 0 && userstate.mod) {
+                var currentSong = twitchbot.data.getCurrentSong();
+                if (currentSong) {
+                    twitchbot.data.addVeto(song);
+                    client.say(channel, "La canción " + currentSong.video.title + " ha sido vetada por " + currentSong.user);
+                }
+            }
+
         });
 
         client.on("hosted", function (channel, username, viewers, autohost) {

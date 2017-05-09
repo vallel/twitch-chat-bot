@@ -16,27 +16,40 @@ var twitchbot = twitchbot || {};
         },
 
         search: function(query, callback) {
+            console.log(query);
+
             var request = gapi.client.youtube.search.list({
                 q: query,
-                part: 'snippet'
-                // type: 'video',
+                part: 'snippet',
+                type: 'video',
                 // videoSyndicated: 'any',
                 // videoEmbeddable: 'any',
-                // videoDuration: 'medium'
+                videoDuration: 'medium'
             });
 
             var video = null;
 
             request.execute(function (response) {
                 if (response.result.items.length) {
-                    var item = response.result.items[0];
-                    
-                    video = {
-                        id: item.id.videoId,
-                        title: item.snippet.title
-                    };
+                    var item = null;
 
-                    callback(video);
+                    var vetoList = twitchbot.data.getVetoList();
+
+                    for (var i = 0; i < response.result.items.length; i++) {
+                        if (vetoList.indexOf(response.result.items[i].id.videoId) == -1) {
+                            item = response.result.items[i];
+                            break;
+                        }
+                    }
+
+                    if (item) {
+                        video = {
+                            id: item.id.videoId,
+                            title: item.snippet.title
+                        };
+
+                        callback(video);
+                    }
                 }
             });
         },
