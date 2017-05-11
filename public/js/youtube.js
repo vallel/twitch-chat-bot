@@ -36,10 +36,10 @@ var twitchbot = twitchbot || {};
                     var vetoList = twitchbot.data.getVetoList();
 
                     for (var i = 0; i < response.result.items.length; i++) {
-                        if (vetoList.indexOf(response.result.items[i].id.videoId) == -1) {
+                        // if (vetoList.indexOf(response.result.items[i].id.videoId) == -1) {
                             item = response.result.items[i];
                             break;
-                        }
+                        // }
                     }
 
                     if (item) {
