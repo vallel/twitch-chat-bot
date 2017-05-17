@@ -16,14 +16,10 @@ var twitchbot = twitchbot || {};
         },
 
         search: function(query, callback) {
-            console.log(query);
-
             var request = gapi.client.youtube.search.list({
                 q: query,
                 part: 'snippet',
                 type: 'video',
-                // videoSyndicated: 'any',
-                // videoEmbeddable: 'any',
                 videoDuration: 'medium'
             });
 
@@ -56,8 +52,8 @@ var twitchbot = twitchbot || {};
 
         onYouTubeIframeAPIReady: function() {
             twitchbot.youtube.player = new YT.Player('js-youtube-player', {
-                height: '390',
-                width: '640',
+                height: '200',
+                width: '300',
                 videoId: '',
                 events: {
                     'onReady': onPlayerReady,
