@@ -27,16 +27,7 @@ var twitchbot = twitchbot || {};
 
             request.execute(function (response) {
                 if (response.result.items.length) {
-                    var item = null;
-
-                    var vetoList = twitchbot.data.getVetoList();
-
-                    for (var i = 0; i < response.result.items.length; i++) {
-                        if (vetoList.indexOf(response.result.items[i].id.videoId) == -1) {
-                            item = response.result.items[i];
-                            break;
-                        }
-                    }
+                    var item = response.result.items[0];
 
                     if (item) {
                         video = {
