@@ -10,5 +10,6 @@ router.get('/', function(req, res, next) {
 
 /* GET song request page */
 router.get('/songrequest', songRequestController.songs_list);
+router.get('/songrequest/delete-song/:id', songRequestController.delete_song);
 
 module.exports = router;

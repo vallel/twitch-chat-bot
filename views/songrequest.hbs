@@ -2,35 +2,49 @@
     <h1>Song Request</h1>
 </div>
 
-<div class="well">
-  <div class="row">
-    <div class="col-md-5">
-      <div id="js-youtube-player"></div>
+<div class="well {{#unless currentSong}}hidden{{/unless}}">
+    <div class="row">
+        <div class="col-md-5">
+            <iframe id="js-youtube-player"
+                    width="400" height="250"
+                    src="https://www.youtube.com/embed/{{currentSong.videoId}}?enablejsapi=1"
+                    frameborder="0"
+            ></iframe>
+        </div>
+        <div class="col-md-7">
+            <h4>Canción actual:</h4>
+            <p><span class="glyphicon glyphicon-music"></span> {{currentSong.title}}</p>
+            <p><span class="glyphicon glyphicon-user"></span> <a href="http://twitch.tv/{{currentSong.userName}}">{{currentSong.userName}}</a></p>
+            <p><span class="glyphicon glyphicon-calendar"></span> {{currentSong.date}}</p>
+            <button class="btn btn-warning js-song-request-skip">Saltar canción <span class="glyphicon glyphicon-step-forward"></span></button>
+            <button class="btn btn-danger js-song-request-veto" data-video-id="{{currentSong.id}}">Vetar canción <span class="glyphicon glyphicon-ban-circle"></span></button>
+        </div>
     </div>
-    <div class="col-md-7">
-      <h4>Canción actual:</h4>
-      <p><span class="glyphicon glyphicon-music"></span> Foo Fighters - The Pretender</p>
-      <p><span class="glyphicon glyphicon-user"></span> <a href="">vallelblanco</a></p>
-      <p><span class="glyphicon glyphicon-calendar"></span> 10/Mayo/2017</p>
-
-      <button class="btn btn-warning">Saltar canción <span class="glyphicon glyphicon-step-forward"></span></button>
-      <button class="btn btn-danger">Vetar canción <span class="glyphicon glyphicon-ban-circle"></span></button>
-    </div>
-  </div>
 </div>
 
 <h4>Lista de reproducción:</h4>
 {{#if songs}}
-<table class="table">
-    {{#each songs}}
-    <tr>
-        <td><span class="glyphicon glyphicon-music"></span> {{title}}</td>
-        <td><span class="glyphicon glyphicon-user"></span> <a href="">{{username}}</a></td>
-        <td><span class="glyphicon glyphicon-calendar"></span> {{date}}</td>
-        <td class="col-md-2 text-right">
-            <a href="" class="btn btn-xs btn-danger glyphicon glyphicon-trash"></a>
-        </td>
-    </tr>
-    {{/each}}
-</table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Canción</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each songs}}
+            <tr class="{{#if @first}}active{{/if}}">
+                <td>{{#if @first}}<span class="glyphicon glyphicon-music"></span> {{/if}}{{title}}</td>
+                <td><span class="glyphicon glyphicon-user"></span> <a href="http://twitch.tv/{{userName}}"
+                                                                      target="_blank">{{userName}}</a></td>
+                <td><span class="glyphicon glyphicon-calendar"></span> {{date}}</td>
+                <td class="col-md-2 text-right">
+                    <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{{id}}"></button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 {{/if}}

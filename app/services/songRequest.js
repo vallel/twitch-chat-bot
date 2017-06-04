@@ -43,6 +43,23 @@ var songRequest = {
                 onSuccess(songs);
             }
         });
+    },
+
+    getCurrentSong: function(onSuccess) {
+        this.getSongs(function(songs) {
+            onSuccess(songs ? songs[0] : null);
+        })
+    },
+
+    deleteSong: function(songId, onSuccess) {
+        songModel.findByIdAndRemove(songId, function (error) {
+            if (error) {
+                console.log(error);
+            }
+            else if(onSuccess) {
+                onSuccess(songId);
+            }
+        });
     }
 };
 
