@@ -1,3 +1,5 @@
 /node_modules
 /public/js/oauth.js
 *.log
+public/img/
+.idea/

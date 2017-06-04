@@ -43,7 +43,7 @@ function init() {
 
         if (message.indexOf('!songrequest') === 0 || message.indexOf('!sr') === 0) {
             var query = message.replace('!songrequest', '').trim();
-            query = message.replace('!sr', '').trim();
+            query = query.replace('!sr', '').trim();
 
             if (query) {
                 songRequest.addSong(user, query, function(songTitle) {

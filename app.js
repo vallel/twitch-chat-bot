@@ -9,6 +9,7 @@ var sassMiddleware = require('node-sass-middleware');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+var db = require('./app/services/db');
 var chatBot = require('./app/services/chatBot');
 
 var app = express();
@@ -52,6 +53,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+db.connect();
 chatBot.connect();
 
 module.exports = app;

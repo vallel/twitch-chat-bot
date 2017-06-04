@@ -2,7 +2,7 @@ var twitchbot = twitchbot || {};
 
 (function() {
     twitchbot.youtube = {
-        player,
+        player: null,
         videoDone: false,
 
         init: function() {
@@ -43,8 +43,8 @@ var twitchbot = twitchbot || {};
 
         onYouTubeIframeAPIReady: function() {
             twitchbot.youtube.player = new YT.Player('js-youtube-player', {
-                height: '200',
-                width: '300',
+                height: '250',
+                width: '400',
                 videoId: '',
                 events: {
                     'onReady': onPlayerReady,

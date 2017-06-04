@@ -4,10 +4,10 @@
 
 <div class="well">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
       <div id="js-youtube-player"></div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-7">
       <h4>Canción actual:</h4>
       <p><span class="glyphicon glyphicon-music"></span> Foo Fighters - The Pretender</p>
       <p><span class="glyphicon glyphicon-user"></span> <a href="">vallelblanco</a></p>
@@ -20,53 +20,17 @@
 </div>
 
 <h4>Lista de reproducción:</h4>
+{{#if songs}}
 <table class="table">
-  <tr>
-    <td><span class="glyphicon glyphicon-music"></span> Foo Fighters - The Pretender</td>
-    <td><span class="glyphicon glyphicon-user"></span> <a href="">vallelblanco</a></td>
-    <td><span class="glyphicon glyphicon-calendar"></span> 10/Mayo/2017</td>
-    <td class="col-md-2 text-right">
-      <a href="" class="btn btn-xs btn-danger glyphicon glyphicon-trash"></a>
-    </td>
-  </tr>
-  <tr>
-    <td><span class="glyphicon glyphicon-music"></span> Foo Fighters - The Pretender</td>
-    <td><span class="glyphicon glyphicon-user"></span> <a href="">vallelblanco</a></td>
-    <td><span class="glyphicon glyphicon-calendar"></span> 10/Mayo/2017</td>
-    <td class="col-md-2 text-right">
-      <a href="" class="btn btn-xs btn-danger glyphicon glyphicon-trash"></a>
-    </td>
-  </tr>
-  <tr>
-    <td><span class="glyphicon glyphicon-music"></span> Foo Fighters - The Pretender</td>
-    <td><span class="glyphicon glyphicon-user"></span> <a href="">vallelblanco</a></td>
-    <td><span class="glyphicon glyphicon-calendar"></span> 10/Mayo/2017</td>
-    <td class="col-md-2 text-right">
-      <a href="" class="btn btn-xs btn-danger glyphicon glyphicon-trash"></a>
-    </td>
-  </tr>
-  <tr>
-    <td><span class="glyphicon glyphicon-music"></span> Foo Fighters - The Pretender</td>
-    <td><span class="glyphicon glyphicon-user"></span> <a href="">vallelblanco</a></td>
-    <td><span class="glyphicon glyphicon-calendar"></span> 10/Mayo/2017</td>
-    <td class="col-md-2 text-right">
-      <a href="" class="btn btn-xs btn-danger glyphicon glyphicon-trash"></a>
-    </td>
-  </tr>
-  <tr>
-    <td><span class="glyphicon glyphicon-music"></span> Foo Fighters - The Pretender</td>
-    <td><span class="glyphicon glyphicon-user"></span> <a href="">vallelblanco</a></td>
-    <td><span class="glyphicon glyphicon-calendar"></span> 10/Mayo/2017</td>
-    <td class="col-md-2 text-right">
-      <a href="" class="btn btn-xs btn-danger glyphicon glyphicon-trash"></a>
-    </td>
-  </tr>
-  <tr>
-    <td><span class="glyphicon glyphicon-music"></span> Foo Fighters - The Pretender</td>
-    <td><span class="glyphicon glyphicon-user"></span> <a href="">vallelblanco</a></td>
-    <td><span class="glyphicon glyphicon-calendar"></span> 10/Mayo/2017</td>
-    <td class="col-md-2 text-right">
-      <a href="" class="btn btn-xs btn-danger glyphicon glyphicon-trash"></a>
-    </td>
-  </tr>
+    {{#each songs}}
+    <tr>
+        <td><span class="glyphicon glyphicon-music"></span> {{title}}</td>
+        <td><span class="glyphicon glyphicon-user"></span> <a href="">{{username}}</a></td>
+        <td><span class="glyphicon glyphicon-calendar"></span> {{date}}</td>
+        <td class="col-md-2 text-right">
+            <a href="" class="btn btn-xs btn-danger glyphicon glyphicon-trash"></a>
+        </td>
+    </tr>
+    {{/each}}
 </table>
+{{/if}}
