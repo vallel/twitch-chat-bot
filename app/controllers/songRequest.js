@@ -1,6 +1,6 @@
 var songRequest = require('../services/songRequest');
 
-exports.songs_list = function(req, res, next) {
+exports.songsList = function(req, res, next) {
     songRequest.getSongs(function(songs) {
         res.render('songrequest', {
             title: 'Twitch Chat Bot - Song Request',
@@ -11,7 +11,14 @@ exports.songs_list = function(req, res, next) {
     });
 };
 
-exports.delete_song = function(req, res, next) {
-    songRequest.deleteSong(req.params.id);
-    res.redirect('/songrequest');
+exports.deleteSong = function(req, res, next) {
+    songRequest.deleteSong(req.body.songId, function() {
+       res.json({success: true});
+    });
+};
+
+exports.getSongs = function(req, res, next) {
+    songRequest.getSongs(function(songs) {
+        res.json(songs);
+    });
 };

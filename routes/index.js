@@ -9,7 +9,8 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET song request page */
-router.get('/songrequest', songRequestController.songs_list);
-router.get('/songrequest/delete-song/:id', songRequestController.delete_song);
+router.get('/songrequest', songRequestController.songsList);
+router.post('/songrequest/delete-song/:id', songRequestController.deleteSong);
+router.get('/songrequest/songs', songRequestController.getSongs);
 
 module.exports = router;
