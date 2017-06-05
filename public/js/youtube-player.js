@@ -16,13 +16,8 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.ENDED) {
-        // delete the song that just ended
-        $.ajax({
-            url: '/songrequest/delete-song/:id'
+        twitchBot.songRequest.updateCurrentSong(function(song) {
+            player.loadVideoById(song.videoId);
         });
-
-        // update playlist
-
-        // play next song
     }
 }
