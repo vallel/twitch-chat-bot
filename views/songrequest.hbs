@@ -2,13 +2,13 @@
     <h1>Song Request</h1>
 </div>
 
-<div class="well js-current-song-container {{#unless currentSong}}hidden{{/unless}}">
+<div class="well js-current-song-container {{#unless currentSong}}hidden{{/unless}}" data-song-id="{{#if currentSong }}{{currentSong.id}}{{/if}}">
     <div class="row">
         <div class="col-md-5">
             <iframe id="js-youtube-player"
                     width="400" height="250"
                     src="https://www.youtube.com/embed/{{currentSong.videoId}}?enablejsapi=1"
-                    frameborder="0" data-song-id="{{currentSong.id}}"
+                    frameborder="0"
             ></iframe>
         </div>
         <div class="col-md-7">

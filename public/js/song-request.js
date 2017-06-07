@@ -19,7 +19,7 @@ var twitchBot = twitchBot || {};
         },
 
         getCurrentSongId: function() {
-            return $('#js-youtube-player').data('song-id');
+            return $('.js-current-song-container').attr('data-song-id');
         },
 
         getSongs: function(callback) {
@@ -40,10 +40,9 @@ var twitchBot = twitchBot || {};
                     if (songs.length > 0) {
                         var currentSong = songs[0],
                             $currentSongContainer = $('.js-current-song-container'),
-                            videoUrl = 'https://www.youtube.com/embed/'+ currentSong.videoId +'?enablejsapi=1',
                             userLink = '<a href="http://twitch.tv/'+ currentSong.userName +'">'+ currentSong.userName +'</a>';
 
-                        $currentSongContainer.find('.js-youtube-player').attr('src', videoUrl);
+                        $currentSongContainer.attr('data-song-id', currentSong._id);
                         $currentSongContainer.find('.js-current-song-title').html(currentSong.title);
                         $currentSongContainer.find('.js-current-song-username').html(userLink);
                         $currentSongContainer.find('.js-current-song-date').html(currentSong.date);
