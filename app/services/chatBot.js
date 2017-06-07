@@ -22,6 +22,8 @@ var config = {
 var client = null;
 
 var bot = {
+    socketApi: null,
+
     connect: function () {
         client = new tmi.client(config);
         client.connect();
@@ -65,11 +67,19 @@ function init() {
             }*/
         }
 
+        if (message.indexOf('!volume') === 0 && userstate.mod) {
+            if (bot.socketApi) {
+                var volume = message.replace('!volume', '').trim();
+                bot.socketApi.sendMessage('!volume', volume);
+            }
+        }
+
         if (message.indexOf('!currentsong') === 0) {
-            /*var currentSong = twitchbot.data.getCurrentSong();
-            if (currentSong) {
-                client.say(channel, "La canción actual es " + currentSong.video.title + " y fue agregada por " + currentSong.user);
-            }*/
+            songRequest.getCurrentSong(function(currentSong) {
+                if (currentSong) {
+                    client.say(channel, "La canción actual es " + currentSong.title + " y fue agregada por " + currentSong.userName);
+                }
+            });
         }
 
         if (message.indexOf('!veto') === 0 && userstate.mod) {

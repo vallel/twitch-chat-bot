@@ -1,3 +1,4 @@
+var twitchBot = twitchBot || {};
 var player;
 
 function onYouTubeIframeAPIReady() {
@@ -21,3 +22,17 @@ function onPlayerStateChange(event) {
         });
     }
 }
+
+twitchBot.youtube = {
+    setVolume: function (volume) {
+        var result = false;
+
+        volume = volume >= 0 && volume <= 100 ? volume : null;
+        if (volume) {
+            player.setVolume(volume);
+            result = true;
+        }
+
+        return result;
+    }
+};

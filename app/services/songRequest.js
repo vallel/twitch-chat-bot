@@ -60,6 +60,15 @@ var songRequest = {
                 onSuccess(songId);
             }
         });
+    },
+
+    setVolume: function(socket, volume) {
+        if (socket && volume) {
+            volume = volume >= 0 && volume <= 100 ? volume : null;
+            if (volume) {
+                socket.emit('!volume', volume);
+            }
+        }
     }
 };
 
