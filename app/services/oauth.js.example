@@ -1,0 +1,11 @@
+var oauth = {
+    twitch: {
+        username: '<USERNAME>',
+        password: '<TWITCH OAUTH KEY>'
+    },
+    youtube: {
+        apiKey: '<YOUTUBE API KEY>'
+    }
+};
+
+module.exports = oauth;
