@@ -10,6 +10,7 @@ var twitchBot = twitchBot || {};
 
     function wireEvents(socket) {
         socket.on('!volume', twitchBot.youtube.setVolume);
+        socket.on('!skip', twitchBot.youtube.skipSong);
     }
 
     $(function() {

@@ -34,7 +34,7 @@ var bot = {
 
 function init() {
     client.on("connected", function (address, port) {
-        client.say(channel, 'Bienvenidos al canal.');
+        // client.say(channel, 'Bienvenidos al canal.');
     });
 
     client.on("chat", function (channel, userstate, message, self) {
@@ -55,22 +55,35 @@ function init() {
         }
 
         if (message.indexOf('!skip') === 0) {
-            /*if (twitchbot.bot.skips.indexOf(user) == -1) {
-                twitchbot.bot.skips.push(user);
 
-                client.say(channel, user + ' ha votado por saltar la canción actual. Votos: ' + twitchbot.bot.skips.length + '/' + twitchbot.bot.countToSkip);
+            songRequest.getCurrentSong(function(currentSong) {
+                if (currentSong) {
+                    var skips = currentSong.skips || [];
 
-                if (twitchbot.bot.skips.length >= twitchbot.bot.countToSkip) {
-                    twitchbot.bot.skips = [];
-                    twitchbot.youtube.nextSong();
+                    if (skips.indexOf(user) === -1) {
+                        skips.push(user);
+
+                        if (skips.length < songRequest.skipLimit) {
+                            songRequest.updateSong(currentSong, {skips: skips});
+                        } else {
+                            songRequest.deleteSong(currentSong._id, function() {
+                                bot.socketApi.sendMessage('!skip', true);
+                            });
+                        }
+
+                        client.say(channel, user + ' ha votado por saltar la canción actual. Votos: ' + skips.length + '/' + songRequest.skipLimit);
+                    }
                 }
-            }*/
+            });
         }
 
-        if (message.indexOf('!volume') === 0 && userstate.mod) {
+        if (message.indexOf('!volume') === 0 && (userstate.mod || userstate.badges.broadcaster)) {
             if (bot.socketApi) {
                 var volume = message.replace('!volume', '').trim();
-                bot.socketApi.sendMessage('!volume', volume);
+                if (volume >= 0 && volume <= 100) {
+                    bot.socketApi.sendMessage('!volume', volume);
+                    client.say(channel, user + " ha cambiado el volumen de la música a " + volume);
+                }
             }
         }
 

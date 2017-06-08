@@ -7,7 +7,8 @@ var SongSchema = new Schema({
     videoId: String,
     date: Date,
     userName: String,
-    query: String
+    query: String,
+    skips: Array
 });
 
 var Song = mongoose.model('Song', SongSchema);

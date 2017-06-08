@@ -34,5 +34,11 @@ twitchBot.youtube = {
         }
 
         return result;
+    },
+
+    skipSong: function () {
+        twitchBot.songRequest.updateCurrentSong(function(song) {
+            player.loadVideoById(song.videoId);
+        });
     }
 };

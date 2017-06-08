@@ -2,6 +2,8 @@ var songModel = require('../models/song');
 var youtube = require('./youtube');
 
 var songRequest = {
+    skipLimit: 3,
+
     addSong: function(userName, query, onSuccess) {
         youtube.search(query, function(error, results) {
             if (error) {
@@ -69,6 +71,18 @@ var songRequest = {
                 socket.emit('!volume', volume);
             }
         }
+    },
+
+    updateSong: function(currentSong, data) {
+        data = data || currentSong;
+
+        console.log(currentSong._id);
+        songModel.findById(currentSong._id, function (error, song) {
+            if (!error) {
+                song.skips = currentSong.skips;
+                song.save();
+            }
+        });
     }
 };
 
