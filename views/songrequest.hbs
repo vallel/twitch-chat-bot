@@ -1,0 +1,68 @@
+<div class="page-header">
+    <h1>Song Request</h1>
+</div>
+
+<div class="well js-current-song-container {{#unless currentSong}}hidden{{/unless}}" data-song-id="{{#if currentSong }}{{currentSong.id}}{{/if}}">
+    <div class="row">
+        <div class="col-md-5">
+            <iframe id="js-youtube-player"
+                    width="400" height="250"
+                    src="https://www.youtube.com/embed/{{currentSong.videoId}}?enablejsapi=1"
+                    frameborder="0"
+            ></iframe>
+        </div>
+        <div class="col-md-7">
+            <h4>Canción actual:</h4>
+            <p><span class="glyphicon glyphicon-music"></span> <span class="js-current-song-title">{{currentSong.title}}</span></p>
+            <p><span class="glyphicon glyphicon-user"></span> <span class="js-current-song-username"><a href="http://twitch.tv/{{currentSong.userName}}">{{currentSong.userName}}</a></span></p>
+            <p><span class="glyphicon glyphicon-calendar"></span> <span class="js-current-song-date">{{currentSong.date}}</span></p>
+            <button class="btn btn-warning js-song-request-skip">Saltar canción <span class="glyphicon glyphicon-step-forward"></span></button>
+            <button class="btn btn-danger js-song-request-veto" data-video-id="{{currentSong.id}}">Vetar canción <span class="glyphicon glyphicon-ban-circle"></span></button>
+        </div>
+    </div>
+</div>
+
+<h4>Lista de reproducción:</h4>
+{{#if songs}}
+    <table class="table js-song-request-playlist">
+        <thead>
+            <tr>
+                <th>Canción</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each songs}}
+            <tr class="{{#if @first}}active{{/if}}">
+                <td>{{#if @first}}<span class="glyphicon glyphicon-music"></span> {{/if}}{{title}}</td>
+                <td>
+                    <span class="glyphicon glyphicon-user"></span>
+                    <a href="http://twitch.tv/{{userName}}" target="_blank">{{userName}}</a>
+                </td>
+                <td><span class="glyphicon glyphicon-calendar"></span> {{date}}</td>
+                <td class="col-md-2 text-right">
+                    <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{{id}}"></button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+{{/if}}
+
+<table class="js-playlist-song-template hidden">
+    <tbody>
+        <tr class="{activeClass}">
+            <td><span class="glyphicon glyphicon-music {isPlayingIcon}"></span> {title}</td>
+            <td>
+                <span class="glyphicon glyphicon-user"></span>
+                <a href="http://twitch.tv/{userName}" target="_blank">{userName}</a>
+            </td>
+            <td><span class="glyphicon glyphicon-calendar"></span> {date}</td>
+            <td class="col-md-2 text-right">
+                <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{id}"></button>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,7 +1,0 @@
-var twitchbot = twitchbot || {};
-
-twitchbot.oauth = {
-	username: '<USERNAME>',
-	password: '<OAUTH KEY>',
-	youtubeKey: '<YOUTUBE API KEY>'
-};
