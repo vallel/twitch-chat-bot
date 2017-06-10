@@ -76,7 +76,6 @@ var songRequest = {
     updateSong: function(currentSong, data) {
         data = data || currentSong;
 
-        console.log(currentSong._id);
         songModel.findById(currentSong._id, function (error, song) {
             if (!error) {
                 song.skips = currentSong.skips;

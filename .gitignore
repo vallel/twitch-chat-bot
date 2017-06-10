@@ -3,3 +3,4 @@
 public/img/
 .idea/
 /app/services/oauth.js
+/app/config.js

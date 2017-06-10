@@ -1,9 +1,9 @@
 var tmi = require('tmi.js');
-var oauth = require('./oauth');
+var appConfig = require('../config');
 var songRequest = require('./songRequest');
 var rank = require('./rank');
 
-var channel = 'vallelblanco';
+var channel = appConfig.twitchChannel;
 
 var config = {
     options: {
@@ -14,8 +14,8 @@ var config = {
         reconnect: true
     },
     identity: {
-        username: oauth.twitch.username,
-        password: oauth.twitch.password
+        username: appConfig.botOauth.username,
+        password: appConfig.botOauth.oAuthKey
     },
     channels: [channel]
 };

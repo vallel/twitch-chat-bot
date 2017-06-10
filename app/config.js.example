@@ -1,0 +1,12 @@
+var conf = {
+    twitchChannel: '<YOUR TWITCH CHANNEL USER NAME>',
+    botOauth: {
+        username: '<BOT USERNAME>',
+        oAuthKey: '<BOT USER OAUTH>'
+    },
+    youtube: {
+        apiKey: '<YOUTUBE API KEY>'
+    }
+};
+
+modules.export = conf;
