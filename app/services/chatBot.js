@@ -1,6 +1,7 @@
 var tmi = require('tmi.js');
 var oauth = require('./oauth');
 var songRequest = require('./songRequest');
+var rank = require('./rank');
 
 var channel = 'vallelblanco';
 
@@ -33,6 +34,8 @@ var bot = {
 };
 
 function init() {
+    rank.init();
+
     client.on("connected", function (address, port) {
         // client.say(channel, 'Bienvenidos al canal.');
     });
@@ -80,7 +83,7 @@ function init() {
         if (message.indexOf('!volume') === 0 && (userstate.mod || userstate.badges.broadcaster)) {
             if (bot.socketApi) {
                 var volume = message.replace('!volume', '').trim();
-                if (volume >= 0 && volume <= 100) {
+                if (volume.length && volume >= 0 && volume <= 100) {
                     bot.socketApi.sendMessage('!volume', volume);
                     client.say(channel, user + " ha cambiado el volumen de la música a " + volume);
                 }
@@ -101,6 +104,16 @@ function init() {
                 twitchbot.data.addVeto(song);
                 client.say(channel, "La canción " + currentSong.video.title + " ha sido vetada por " + currentSong.user);
             }*/
+        }
+
+        if (message.indexOf('!points') === 0) {
+            rank.getPoints(user, function(data) {
+                var points = 0;
+                if (data && data.points) {
+                    points = data.points;
+                }
+                client.say(channel, user + ' tiene ' + points + ' puntos.');
+            });
         }
 
     });
