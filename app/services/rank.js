@@ -57,14 +57,13 @@ function getConnectedUsers(callback) {
                 for (var userType in body.chatters) {
                     var userNames = body.chatters[userType];
                     for (var i = 0; i < userNames.length; i++) {
-                        if (userNames[i] != appConfig.botOauth.username) {
+                        if (userNames[i].indexOf([appConfig.botOauth.username, appConfig.twitchChannel]) == -1) {
                             users.push(userNames[i]);
                         }
                     }
                 }
             }
 
-            console.log(users);
             callback(users);
         }
     });
