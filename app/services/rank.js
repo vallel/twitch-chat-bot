@@ -35,10 +35,13 @@ var rank = {
     },
 
     getRanking: function(callback) {
-        rankModel.find({}).sort({points: 'desc'}).exec(function (error, data) {
-            if (!error && callback) {
-                callback(data);
-            }
+        var noShowUsers = [appConfig.twitchChannel, appConfig.botOauth.username];
+        rankModel.find({userName: {$nin: noShowUsers}})
+            .sort({points: 'desc'})
+            .exec(function (error, data) {
+                if (!error && callback) {
+                    callback(data);
+                }
         });
     }
 };
@@ -57,9 +60,7 @@ function getConnectedUsers(callback) {
                 for (var userType in body.chatters) {
                     var userNames = body.chatters[userType];
                     for (var i = 0; i < userNames.length; i++) {
-                        if (userNames[i].indexOf([appConfig.botOauth.username, appConfig.twitchChannel]) == -1) {
-                            users.push(userNames[i]);
-                        }
+                        users.push(userNames[i]);
                     }
                 }
             }
