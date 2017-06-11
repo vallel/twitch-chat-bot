@@ -1,0 +1,22 @@
+<div class="page-header">
+    <h1>Puntos</h1>
+</div>
+
+{{#if rankingList }}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Puntos</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each rankingList}}
+            <tr>
+                <td><a href="http://twitch.tv/{{userName}}" target="_blank">{{userName}}</a></td>
+                <td>{{points}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+{{/if}}
