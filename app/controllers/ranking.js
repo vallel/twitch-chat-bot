@@ -9,3 +9,17 @@ exports.rankingList = function(req, res, next) {
         });
     });
 };
+
+exports.import = function(req, res, next) {
+    res.render('rankingImport');
+};
+
+exports.importCsv = function(req, res, next) {
+    if (req.file) {
+        rank.importCsv(req.file.path, function() {
+            res.redirect('/puntos');
+        });
+    } else {
+        res.redirect('/puntos/importar');
+    }
+};

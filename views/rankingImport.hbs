@@ -1,0 +1,16 @@
+<div class="page-header">
+    <h1>Importar puntos</h1>
+</div>
+
+<div class="alert alert-info" role="alert">
+    Actualmente solo es soportado la importación de archivos exportados desde
+    <a href="https://www.revlo.co/" target="_blank">Revlo</a>
+</div>
+
+<form action="/puntos/importar" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="csvFile">Archivo .csv</label>
+        <input type="file" id="csvFile" name="csvFile">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Importar</button>
+</form>

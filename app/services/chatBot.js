@@ -80,7 +80,7 @@ function init() {
             });
         }
 
-        if (message.indexOf('!volume') === 0 && (userstate.mod || userstate.badges.broadcaster)) {
+        if (message.indexOf('!volume') === 0 && (userstate.mod || (userstate.badges && userstate.badges.broadcaster))) {
             if (bot.socketApi) {
                 var volume = message.replace('!volume', '').trim();
                 if (volume.length && volume >= 0 && volume <= 100) {

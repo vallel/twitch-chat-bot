@@ -1,4 +1,6 @@
 var request = require('request');
+var csv = require('csv');
+var fs = require('fs');
 var rankModel = require('../models/rank');
 var appConfig = require('../config');
 
@@ -14,15 +16,7 @@ var rank = {
     incrementPoints: function(users, increment) {
         increment = increment || 1;
         for (var i = 0; i < users.length; i++) {
-            var data = {
-                userName: users[i],
-                $inc: {points: increment}
-            };
-            rankModel.update({userName: users[i]}, data, {upsert: true}, function(error) {
-                if (error) {
-                    console.log(error);
-                }
-            });
+            incrementUserPoints(users[i], increment);
         }
     },
 
@@ -43,8 +37,45 @@ var rank = {
                     callback(data);
                 }
         });
+    },
+
+    importCsv: function(filePath, callback) {
+        fs.createReadStream(filePath).pipe(csv.parse({delimiter: ','}, function(error, data) {
+            if (error) {
+                console.log(error);
+            } else {
+                if (data) {
+                    /*
+                    * First row is ignored as is just headers.
+                    * The supported file format is the Revlo export csv file:
+                    * Username,Twitch User ID,Current Points,All Time Points
+                    * */
+                    for (var i = 1; i < data.length; i++) {
+                        incrementUserPoints(data[i][0], data[i][2]);
+                    }
+                }
+
+                fs.unlink(filePath);
+
+                if (callback) {
+                    callback();
+                }
+            }
+        }));
     }
 };
+
+function incrementUserPoints(userName, increment) {
+    var data = {
+        userName: userName,
+        $inc: {points: increment}
+    };
+    rankModel.update({userName: userName}, data, {upsert: true}, function(error) {
+        if (error) {
+            console.log(error);
+        }
+    });
+}
 
 function getConnectedUsers(callback) {
     var channel = appConfig.twitchChannel;
