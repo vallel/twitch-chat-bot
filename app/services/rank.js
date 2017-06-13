@@ -21,7 +21,7 @@ var rank = {
     },
 
     getPoints: function(userName, callback) {
-        rankModel.findOne({userName: userName}, function(error, data) {
+        rankModel.findOne({userName: userName.toLowerCase()}, function(error, data) {
             if (!error && callback) {
                 callback(data);
             }
