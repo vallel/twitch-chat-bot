@@ -40,5 +40,17 @@ twitchBot.youtube = {
         twitchBot.songRequest.updateCurrentSong(function(song) {
             player.loadVideoById(song.videoId);
         });
+    },
+
+    play: function () {
+        player.playVideo();
+    },
+
+    stop: function () {
+        player.stopVideo();
+    },
+
+    pause: function () {
+        player.pauseVideo();
     }
 };

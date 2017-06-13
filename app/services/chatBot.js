@@ -90,20 +90,32 @@ function init() {
             }
         }
 
+        if (message.indexOf('!stop') === 0 && (userstate.mod || (userstate.badges && userstate.badges.broadcaster))) {
+            if (bot.socketApi) {
+                bot.socketApi.sendMessage('!stop', true);
+                client.say(channel, user + " ha detenido la canción actual." );
+            }
+        }
+
+        if (message.indexOf('!play') === 0 && (userstate.mod || (userstate.badges && userstate.badges.broadcaster))) {
+            if (bot.socketApi) {
+                bot.socketApi.sendMessage('!play', true);
+            }
+        }
+
+        if (message.indexOf('!pause') === 0 && (userstate.mod || (userstate.badges && userstate.badges.broadcaster))) {
+            if (bot.socketApi) {
+                bot.socketApi.sendMessage('!pause', true);
+                client.say(channel, user + " ha pausado la canción actual." );
+            }
+        }
+
         if (message.indexOf('!currentsong') === 0) {
             songRequest.getCurrentSong(function(currentSong) {
                 if (currentSong) {
                     client.say(channel, "La canción actual es " + currentSong.title + " y fue agregada por " + currentSong.userName);
                 }
             });
-        }
-
-        if (message.indexOf('!veto') === 0 && userstate.mod) {
-            /*var currentSong = twitchbot.data.getCurrentSong();
-            if (currentSong) {
-                twitchbot.data.addVeto(song);
-                client.say(channel, "La canción " + currentSong.video.title + " ha sido vetada por " + currentSong.user);
-            }*/
         }
 
         if (message.indexOf('!points') === 0) {
