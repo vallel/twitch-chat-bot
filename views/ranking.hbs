@@ -8,6 +8,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th></th>
             <th>Usuario</th>
             <th>Puntos</th>
         </tr>
@@ -15,6 +16,7 @@
         <tbody>
         {{#each rankingList}}
             <tr>
+                <td><strong>{{add @index 1}}</strong></td>
                 <td><a href="http://twitch.tv/{{userName}}" target="_blank">{{userName}}</a></td>
                 <td>{{points}}</td>
             </tr>

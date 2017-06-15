@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
+var hbs = require('hbs');
+var hbsHelpers = require('./app/handlebars/helpers')(hbs);
 
 var index = require('./routes/index');
 var ranking = require('./routes/ranking');
@@ -13,6 +15,8 @@ var db = require('./app/services/db');
 
 var app = express();
 
+
+console.log(hbsHelpers);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
