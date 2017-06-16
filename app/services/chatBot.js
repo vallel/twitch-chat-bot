@@ -2,6 +2,7 @@ var tmi = require('tmi.js');
 var appConfig = require('../config');
 var songRequest = require('./songRequest');
 var rank = require('./rank');
+var gamble = require('./gamble');
 
 var channel = appConfig.twitchChannel;
 
@@ -119,13 +120,20 @@ function init() {
         }
 
         if (message.indexOf('!points') === 0) {
-            rank.getPoints(user, function(data) {
-                var points = 0;
-                if (data && data.points) {
-                    points = data.points;
-                }
+            rank.getPoints(user, function(points) {
                 client.say(channel, user + ' tiene ' + points + ' puntos.');
             });
+        }
+
+        if (message.indexOf('!gamble') === 0) {
+            var points = message.replace('!gamble', '').trim();
+            if (parseInt(points) > 0) {
+                gamble.run(user, points, function(result, win, points, currentPoints) {
+                    var outcome = win ? ' ganó ' : ' perdió ',
+                        msg = 'Cayó '+ result +'. '+ user + outcome + points +' y ahora tiene '+ currentPoints +' puntos.';
+                    client.say(channel, msg);
+                });
+            }
         }
 
     });

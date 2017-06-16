@@ -13,17 +13,19 @@ var rank = {
         }, 60000);
     },
 
-    incrementPoints: function(users, increment) {
+    incrementPoints: function(users, increment, callback) {
         increment = increment || 1;
         for (var i = 0; i < users.length; i++) {
-            incrementUserPoints(users[i], increment);
+            incrementUserPoints(users[i], increment, callback);
         }
+
     },
 
     getPoints: function(userName, callback) {
         rankModel.findOne({userName: userName.toLowerCase()}, function(error, data) {
-            if (!error && callback) {
-                callback(data);
+            if (!error && data && callback) {
+                var points = data.points || 0;
+                callback(points);
             }
         })
     },
@@ -65,7 +67,7 @@ var rank = {
     }
 };
 
-function incrementUserPoints(userName, increment) {
+function incrementUserPoints(userName, increment, callback) {
     var data = {
         userName: userName,
         $inc: {points: increment}
@@ -73,6 +75,10 @@ function incrementUserPoints(userName, increment) {
     rankModel.update({userName: userName}, data, {upsert: true}, function(error) {
         if (error) {
             console.log(error);
+        } else {
+            if (callback) {
+                callback();
+            }
         }
     });
 }
