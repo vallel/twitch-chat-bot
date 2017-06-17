@@ -129,9 +129,13 @@ function init() {
             var points = message.replace('!gamble', '').trim();
             if (parseInt(points) > 0) {
                 gamble.run(user, points, function(result, win, points, currentPoints) {
-                    var outcome = win ? ' ganó ' : ' perdió ',
-                        msg = 'Cayó '+ result +'. '+ user + outcome + points +' y ahora tiene '+ currentPoints +' puntos.';
-                    client.say(channel, msg);
+                    if (result === -1) {
+                        client.say(channel, user + ' no tiene los puntos suficientes para apostar.');
+                    } else {
+                        var outcome = win ? ' ganó ' : ' perdió ',
+                            msg = 'Cayó ' + result + '. ' + user + outcome + points + ' y ahora tiene ' + currentPoints + ' puntos.';
+                        client.say(channel, msg);
+                    }
                 });
             }
         }
