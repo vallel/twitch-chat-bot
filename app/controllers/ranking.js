@@ -1,11 +1,15 @@
 var rank = require('../services/rank');
+var command = require('../services/command');
 
 exports.rankingList = function(req, res, next) {
     rank.getRanking(function(rankingList) {
-        res.render('ranking', {
-            title: 'Twitch Chat Bot - Puntos',
-            rankingPage: true,
-            rankingList: rankingList
+        command.get('gamble', function(data) {
+            res.render('ranking', {
+                title: 'Twitch Chat Bot - Puntos',
+                rankingPage: true,
+                rankingList: rankingList,
+                gambleEnabled: data.enabled
+            });
         });
     });
 };

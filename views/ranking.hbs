@@ -2,25 +2,54 @@
     <h1>Puntos</h1>
 </div>
 
-<a href="/puntos/importar" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-save"></span> Importar</a>
-
-{{#if rankingList }}
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Usuario</th>
-            <th>Puntos</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#each rankingList}}
+<div class="row">
+    <div class="col-md-8">
+    {{#if rankingList }}
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td><strong>{{add @index 1}}</strong></td>
-                <td><a href="http://twitch.tv/{{userName}}" target="_blank">{{userName}}</a></td>
-                <td>{{points}}</td>
+                <th></th>
+                <th>Usuario</th>
+                <th>Puntos</th>
             </tr>
-        {{/each}}
-        </tbody>
-    </table>
-{{/if}}
+            </thead>
+            <tbody>
+            {{#each rankingList}}
+                <tr>
+                    <td><strong>{{add @index 1}}</strong></td>
+                    <td><a href="http://twitch.tv/{{userName}}" target="_blank">{{userName}}</a></td>
+                    <td>{{points}}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    {{/if}}
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Apuestas</strong>
+            </div>
+            <div class="panel-body">
+                <form action="/comandos/guardar" class="form" method="post">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="enabled" id="enableGamble" {{#if gambleEnabled }}checked="checked"{{/if}}>
+                            Permitir a los usuarios apostar sus puntos con el comando <strong>!gamble</strong>
+                        </label>
+                    </div>
+                    <input type="hidden" name="command" value="gamble">
+                    <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><strong>Importar puntos</strong></div>
+            <div class="panel-body">
+                <a href="/puntos/importar" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Importar</a>
+            </div>
+        </div>
+    </div>
+</div>

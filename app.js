@@ -10,6 +10,7 @@ var hbsHelpers = require('./app/handlebars/helpers')(hbs);
 
 var index = require('./routes/index');
 var ranking = require('./routes/ranking');
+var commands = require('./routes/commands');
 
 var db = require('./app/services/db');
 
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/puntos', ranking);
+app.use('/comandos', commands);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
