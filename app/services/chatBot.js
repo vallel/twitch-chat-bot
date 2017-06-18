@@ -3,6 +3,7 @@ var appConfig = require('../config');
 var songRequest = require('./songRequest');
 var rank = require('./rank');
 var gamble = require('./gamble');
+var command = require('./command');
 
 var channel = appConfig.twitchChannel;
 
@@ -127,17 +128,21 @@ function init() {
 
         if (message.indexOf('!gamble') === 0) {
             var points = message.replace('!gamble', '').trim();
-            if (parseInt(points) > 0) {
-                gamble.run(user, points, function(result, win, points, currentPoints) {
-                    if (result === -1) {
-                        client.say(channel, user + ' no tiene los puntos suficientes para apostar.');
-                    } else {
-                        var outcome = win ? ' ganó ' : ' perdió ',
-                            msg = 'Cayó ' + result + '. ' + user + outcome + points + ' y ahora tiene ' + currentPoints + ' puntos.';
-                        client.say(channel, msg);
+            command.get('gamble', function (data) {
+                if (data.enabled) {
+                    if (parseInt(points) > 0) {
+                        gamble.run(user, points, function(result, win, points, currentPoints) {
+                            if (result === -1) {
+                                client.say(channel, user + ' no tiene los puntos suficientes para apostar.');
+                            } else {
+                                var outcome = win ? ' ganó ' : ' perdió ',
+                                    msg = 'Cayó ' + result + '. ' + user + outcome + points + ' y ahora tiene ' + currentPoints + ' puntos.';
+                                client.say(channel, msg);
+                            }
+                        });
                     }
-                });
-            }
+                }
+            });
         }
 
     });
