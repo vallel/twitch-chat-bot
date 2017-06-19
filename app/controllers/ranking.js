@@ -4,11 +4,16 @@ var command = require('../services/command');
 exports.rankingList = function(req, res, next) {
     rank.getRanking(function(rankingList) {
         command.get('gamble', function(data) {
-            res.render('ranking', {
-                title: 'Twitch Chat Bot - Puntos',
-                rankingPage: true,
-                rankingList: rankingList,
-                gambleEnabled: data.enabled
+            command.getConfig('gamble', 'cooldown', function(config) {
+                var gambleCooldown = config && config.value != undefined ? config.value : 0;
+
+                res.render('ranking', {
+                    title: 'Twitch Chat Bot - Puntos',
+                    rankingPage: true,
+                    rankingList: rankingList,
+                    gambleEnabled: data.enabled,
+                    gambleCooldown: gambleCooldown
+                });
             });
         });
     });
