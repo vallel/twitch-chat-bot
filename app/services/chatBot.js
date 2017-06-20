@@ -131,8 +131,10 @@ function init() {
             command.get('gamble', function (data) {
                 if (data.enabled) {
                     if (parseInt(points) > 0) {
-                        gamble.run(user, points, function(result, win, points, currentPoints) {
-                            if (result === -1) {
+                        gamble.run(user, points, function(result, win, points, currentPoints, nextGamble) {
+                            if (nextGamble) {
+                                client.say(channel, user + ' no puedes apostar en este momento, debes esperar al menos '+ nextGamble +' minutos.');
+                            } else if (result === -1) {
                                 client.say(channel, user + ' no tiene los puntos suficientes para apostar.');
                             } else {
                                 var outcome = win ? ' ganó ' : ' perdió ',

@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
 var RankSchema = new Schema({
     twitchUserId: Number,
     userName: String,
-    points: Number
+    points: Number,
+    lastGamble: Date
 });
 
 var Rank = mongoose.model('Rank', RankSchema);

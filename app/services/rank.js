@@ -2,7 +2,8 @@ var request = require('request');
 var csv = require('csv');
 var fs = require('fs');
 var rankModel = require('../models/rank');
-var appConfig = require('../config');
+var appConfig = require('../config'),
+    moment = require('moment');
 
 var rank = {
     init: function() {
@@ -16,16 +17,42 @@ var rank = {
     incrementPoints: function(users, increment, callback) {
         increment = increment || 1;
         for (var i = 0; i < users.length; i++) {
-            incrementUserPoints(users[i], increment, callback);
+            rank.incrementUserPoints(users[i], increment, false, callback);
+        }
+    },
+
+    incrementUserPoints: function(userName, increment, isGamble, callback) {
+        var data = {
+            userName: userName,
+            $inc: {points: increment}
+        };
+
+        if (isGamble) {
+            data.lastGamble = moment().format()
         }
 
+        rankModel.update({userName: userName}, data, {upsert: true}, function(error) {
+            if (error) {
+                console.log(error);
+            } else {
+                if (callback) {
+                    callback();
+                }
+            }
+        });
     },
 
     getPoints: function(userName, callback) {
+        this.getRankData(userName, function (data) {
+            var points = data.points || 0;
+            callback(points);
+        });
+    },
+
+    getRankData: function(userName, callback) {
         rankModel.findOne({userName: userName.toLowerCase()}, function(error, data) {
             if (!error && data && callback) {
-                var points = data.points || 0;
-                callback(points);
+                callback(data);
             }
         })
     },
@@ -66,22 +93,6 @@ var rank = {
         }));
     }
 };
-
-function incrementUserPoints(userName, increment, callback) {
-    var data = {
-        userName: userName,
-        $inc: {points: increment}
-    };
-    rankModel.update({userName: userName}, data, {upsert: true}, function(error) {
-        if (error) {
-            console.log(error);
-        } else {
-            if (callback) {
-                callback();
-            }
-        }
-    });
-}
 
 function getConnectedUsers(callback) {
     var channel = appConfig.twitchChannel;
