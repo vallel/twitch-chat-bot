@@ -63,7 +63,10 @@ function init() {
 
             songRequest.getCurrentSong(function(currentSong) {
                 if (currentSong) {
-                    var skips = currentSong.skips || [];
+                    var skips = [];
+                    if (currentSong.skips) {
+                        skips = JSON.parse(currentSong.skips);
+                    }
 
                     if (skips.indexOf(user) === -1) {
                         skips.push(user);

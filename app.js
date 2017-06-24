@@ -12,8 +12,6 @@ var index = require('./routes/index');
 var ranking = require('./routes/ranking');
 var commands = require('./routes/commands');
 
-var db = require('./app/services/db');
-
 var app = express();
 
 // view engine setup
@@ -60,7 +58,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-db.connect();
 
 module.exports = app;

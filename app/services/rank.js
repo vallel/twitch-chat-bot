@@ -1,7 +1,7 @@
 var request = require('request');
 var csv = require('csv');
 var fs = require('fs');
-var rankModel = require('../models/rank');
+var pointsDao = require('../data/points');
 var appConfig = require('../config'),
     moment = require('moment');
 
@@ -22,24 +22,7 @@ var rank = {
     },
 
     incrementUserPoints: function(userName, increment, isGamble, callback) {
-        var data = {
-            userName: userName,
-            $inc: {points: increment}
-        };
-
-        if (isGamble) {
-            data.lastGamble = moment().format()
-        }
-
-        rankModel.update({userName: userName}, data, {upsert: true}, function(error) {
-            if (error) {
-                console.log(error);
-            } else {
-                if (callback) {
-                    callback();
-                }
-            }
-        });
+        pointsDao.increment(userName, increment, isGamble, callback);
     },
 
     getPoints: function(userName, callback) {
@@ -50,22 +33,12 @@ var rank = {
     },
 
     getRankData: function(userName, callback) {
-        rankModel.findOne({userName: userName.toLowerCase()}, function(error, data) {
-            if (!error && data && callback) {
-                callback(data);
-            }
-        })
+        pointsDao.get(userName, callback);
     },
 
     getRanking: function(callback) {
-        var noShowUsers = [appConfig.twitchChannel, appConfig.botOauth.username];
-        rankModel.find({userName: {$nin: noShowUsers}})
-            .sort({points: 'desc'})
-            .exec(function (error, data) {
-                if (!error && callback) {
-                    callback(data);
-                }
-        });
+        // var noShowUsers = [appConfig.twitchChannel, appConfig.botOauth.username];
+        pointsDao.getAll(callback);
     },
 
     importCsv: function(filePath, callback) {

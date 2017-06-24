@@ -1,46 +1,21 @@
-var commandModel = require('../models/command');
-var cmdConfigModel = require('../models/commandConfig');
+var commandDao = require('../data/command');
+var cmdConfigDao = require('../data/commandConfig');
 
 var command = {
     save: function(commandName, enabled, callback) {
-        var data = {
-            command: commandName,
-            enabled: enabled
-        };
-        commandModel.update({command: commandName}, data, {upsert: true}, function(error) {
-            if (!error && callback) {
-                callback();
-            }
-        });
+        commandDao.createOrUpdate(commandName, enabled, callback);
     },
 
     get: function(commandName, callback) {
-        commandModel.findOne({command: commandName}, function (error, data) {
-            if (!error && callback) {
-                callback(data);
-            }
-        });
+        commandDao.get(commandName, callback);
     },
 
     saveConfig: function(command, key, value, callback) {
-        var data = {
-            command: command,
-            key: key,
-            value: value
-        };
-        cmdConfigModel.update({command: command}, data, {upsert: true}, function (error) {
-            if (!error && callback) {
-                callback();
-            }
-        });
+        cmdConfigDao.createOrUpdate(command, key, value, callback);
     },
 
     getConfig: function(command, key, callback) {
-        cmdConfigModel.findOne({command: command, key: key}, function (error, data) {
-            if (!error && callback) {
-                callback(data);
-            }
-        });
+        cmdConfigDao.get(command, key, callback)
     }
 };
 
