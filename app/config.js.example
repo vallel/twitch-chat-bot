@@ -1,5 +1,11 @@
 var conf = {
     twitchChannel: '<YOUR TWITCH CHANNEL USER NAME>',
+    twitchApp: {
+        clientId: '<YOUR TWITCH CLIENT ID>',
+        secretKey: '<SECRET KEY>',
+        redirectUrl: '<REDIRECT URL>',
+        scope: '<SCOPE>'
+    },
     botOauth: {
         username: '<BOT USERNAME>',
         oAuthKey: '<BOT USER OAUTH>'
@@ -9,4 +15,4 @@ var conf = {
     }
 };
 
-modules.export = conf;
+module.exports = conf;

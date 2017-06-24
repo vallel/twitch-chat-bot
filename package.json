@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "start http://localhost:3000 && nodemon ./bin/www"
+    "start": "start http://localhost:3000 && nodemon ./bin/www",
+    "debug": "start http://localhost:3000 && node-debug ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -11,6 +12,7 @@
     "csv": "^1.1.1",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "express-session": "^1.15.3",
     "hbs": "~4.0.1",
     "moment": "^2.18.1",
     "mongoose": "^4.10.4",
