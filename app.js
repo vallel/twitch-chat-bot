@@ -29,6 +29,7 @@ app.use(session({
     saveUninitialized: true
     // ,cookie: { secure: true }
 }));
+
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
@@ -36,6 +37,15 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next) {
+    if (req.session.twitchId || req.path === '/' || req.path === '/login') {
+        res.locals.userName = req.session.displayName;
+        next();
+    } else {
+        res.redirect('/');
+    }
+});
 
 app.use('/', index);
 app.use('/puntos', ranking);
