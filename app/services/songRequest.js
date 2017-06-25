@@ -14,11 +14,11 @@ var songRequest = {
             else {
                 if (results.items.length) {
                     var video = results.items[0],
-                        videoTitle = video.snippet.title,
-                        videoId = video.id.videoId;
+                        title = video.snippet.title,
+                        songId = video.id.videoId;
 
-                    songDao.add(videoId, videoTitle, songType, userName, query, function() {
-                        onSuccess(videoTitle);
+                    songDao.add(songId, title, songType, userName, query, function() {
+                        onSuccess(title);
                     });
                 }
             }

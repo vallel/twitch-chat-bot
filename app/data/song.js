@@ -3,8 +3,10 @@ var db = new sqlite.Database('twitchBot.db');
 
 var song = {
     add: function(songId, title, type, userName, query, fn) {
-        db.run("INSERT INTO songs (songId, title, type, userName, query, date) VALUES " +
-            "(?, ?, ?, ?, ?, NOW());", [songId, title, type, userName, query], function(error) {
+        db.run("INSERT INTO songs (songId, title, type, userName, query, date) " +
+            "VALUES (?, ?, ?, ?, ?, strftime('%Y-%m-%d %H-%M-%f','now'));",
+            [songId, title, type, userName, query],
+            function(error) {
             if (!error && fn) {
                 fn();
             }
@@ -53,7 +55,7 @@ var song = {
 
 function getOrdered(single, fn) {
     var method = single ? 'get' : 'all';
-    db[method]("SELECT * FROM songs ORDER BY date DESC;", function(error, data) {
+    db[method]("SELECT * FROM songs ORDER BY date ASC;", function(error, data) {
         if (!error && fn) {
             fn(data);
         }
