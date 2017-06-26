@@ -72,7 +72,7 @@ function init() {
                         skips.push(user);
 
                         if (skips.length < songRequest.skipLimit) {
-                            songRequest.updateSong(currentSong, {skips: skips});
+                            songRequest.updateSong(currentSong, skips);
                         } else {
                             songRequest.deleteSong(currentSong._id, function() {
                                 bot.socketApi.sendMessage('!skip', true);

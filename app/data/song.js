@@ -13,8 +13,8 @@ var song = {
         });
     },
 
-    updateSkip: function(skips, songId, type, fn) {
-        db.run("UPDATE songs SET skips = ? WHERE songId = ?, type = ?;", [
+    updateSkip: function(songId, type, skips, fn) {
+        db.run("UPDATE songs SET skips = ? WHERE songId = ? AND type = ?;", [
             JSON.stringify(skips),
             songId,
             type
