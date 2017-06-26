@@ -27,7 +27,7 @@ var rank = {
 
     getPoints: function(userName, callback) {
         this.getRankData(userName, function (data) {
-            var points = data.points || 0;
+            var points = data && data.points ? data.points : 0;
             callback(points);
         });
     },
@@ -53,7 +53,7 @@ var rank = {
                     * Username,Twitch User ID,Current Points,All Time Points
                     * */
                     for (var i = 1; i < data.length; i++) {
-                        incrementUserPoints(data[i][0], data[i][2]);
+                        rank.incrementUserPoints(data[i][0], data[i][2]);
                     }
                 }
 

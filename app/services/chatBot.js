@@ -132,7 +132,7 @@ function init() {
         if (message.indexOf('!gamble') === 0) {
             var points = message.replace('!gamble', '').trim();
             command.get('gamble', function (data) {
-                if (data.enabled) {
+                if (data && data.enabled) {
                     if (parseInt(points) > 0) {
                         gamble.run(user, points, function(result, win, points, currentPoints, nextGamble) {
                             if (nextGamble) {

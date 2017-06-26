@@ -36,6 +36,8 @@ var gamble = {
                     } else {
                         callback(-1);
                     }
+                } else if (!rankData) {
+                    callback(-1);
                 } else {
                     var waitTime = Math.ceil(moment(rankData.lastGamble).add(gambleCooldown, 'm').diff(moment(), 'minutes'));
                     callback(0, false, 0, 0, waitTime);

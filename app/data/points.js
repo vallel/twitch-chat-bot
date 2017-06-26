@@ -20,10 +20,10 @@ var points = {
 
     increment: function(userName, increment, isGamble, fn) {
         var gambleField = isGamble ? ", lastGamble " : "",
-            gambleValue = isGamble ? ", strftime('%Y-%m-%d %H-%M-%f','now') " : "";
+            gambleValue = isGamble ? ", DATETIME('now', 'localtime') " : "";
         db.run("INSERT OR REPLACE INTO points (userName, points "+ gambleField +") " +
             "VALUES ($userName, " +
-            "COALESCE((SELECT points + $increment FROM points WHERE userName = $userName), $increment), " +
+            "COALESCE((SELECT points + $increment FROM points WHERE userName = $userName), $increment) " +
             gambleValue +");", {
             $userName: userName,
             $increment: increment
