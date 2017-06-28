@@ -11,11 +11,20 @@ var points = {
     },
 
     getAll: function (fn) {
-        db.all("SELECT * FROM points ORDER BY points DESC;", function(error, data) {
-            if (!error && fn) {
-                fn(data);
+        points.getFiltered([], fn);
+    },
+
+    getFiltered: function(filterUsers, fn) {
+        filterUsers = filterUsers || [];
+        var whereFilter = filterUsers.length ? " WHERE userName NOT IN ('"+ filterUsers.join("','") +"') " : "";
+
+        db.all("SELECT * FROM points "+ whereFilter +" ORDER BY points DESC;",
+            function(error, data) {
+                if (!error && fn) {
+                    fn(data);
+                }
             }
-        });
+        );
     },
 
     increment: function(userName, increment, isGamble, fn) {

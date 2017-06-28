@@ -37,8 +37,8 @@ var rank = {
     },
 
     getRanking: function(callback) {
-        // var noShowUsers = [appConfig.twitchChannel, appConfig.botOauth.username];
-        pointsDao.getAll(callback);
+        var noShowUsers = [appConfig.twitchChannel, appConfig.botOauth.username];
+        pointsDao.getFiltered(noShowUsers, callback);
     },
 
     importCsv: function(filePath, callback) {
