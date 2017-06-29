@@ -3,8 +3,8 @@
 </div>
 
 <div class="row">
-    <div class="panel panel-default col-md-8">
     {{#if rankingList }}
+    <div class="panel panel-default col-md-8">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -23,8 +23,12 @@
             {{/each}}
             </tbody>
         </table>
-    {{/if}}
     </div>
+    {{else}}
+        <p class="alert alert-info col-md-8">Aún no hay puntos registrados.
+            Puedes <a href="/puntos/importar"><strong>importar tus puntos de Revlo</strong></a>
+            si tienes un archivo csv.</p>
+    {{/if}}
 
     <div class="col-md-4">
         <div class="panel panel-default">

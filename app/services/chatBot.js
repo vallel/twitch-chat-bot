@@ -63,13 +63,16 @@ function init() {
 
             songRequest.getCurrentSong(function(currentSong) {
                 if (currentSong) {
-                    var skips = currentSong.skips || [];
+                    var skips = [];
+                    if (currentSong.skips) {
+                        skips = JSON.parse(currentSong.skips);
+                    }
 
                     if (skips.indexOf(user) === -1) {
                         skips.push(user);
 
                         if (skips.length < songRequest.skipLimit) {
-                            songRequest.updateSong(currentSong, {skips: skips});
+                            songRequest.updateSong(currentSong, skips);
                         } else {
                             songRequest.deleteSong(currentSong._id, function() {
                                 bot.socketApi.sendMessage('!skip', true);
@@ -129,7 +132,7 @@ function init() {
         if (message.indexOf('!gamble') === 0) {
             var points = message.replace('!gamble', '').trim();
             command.get('gamble', function (data) {
-                if (data.enabled) {
+                if (data && data.enabled) {
                     if (parseInt(points) > 0) {
                         gamble.run(user, points, function(result, win, points, currentPoints, nextGamble) {
                             if (nextGamble) {

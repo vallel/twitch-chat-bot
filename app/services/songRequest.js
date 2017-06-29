@@ -1,5 +1,7 @@
-var songModel = require('../models/song');
+var songDao = require('../data/song');
 var youtube = require('./youtube');
+
+var songType = 'youtube';
 
 var songRequest = {
     skipLimit: 3,
@@ -12,24 +14,11 @@ var songRequest = {
             else {
                 if (results.items.length) {
                     var video = results.items[0],
-                        videoTitle = video.snippet.title,
-                        videoId = video.id.videoId;
+                        title = video.snippet.title,
+                        songId = video.id.videoId;
 
-                    var song = new songModel({
-                        title: videoTitle,
-                        videoId: videoId,
-                        date: new Date(),
-                        userName: userName,
-                        query: query
-                    });
-
-                    song.save(function(error) {
-                        if (error) {
-                            console.log(error);
-                        }
-                        else if (onSuccess) {
-                            onSuccess(videoTitle);
-                        }
+                    songDao.add(songId, title, songType, userName, query, function() {
+                        onSuccess(title);
                     });
                 }
             }
@@ -37,30 +26,16 @@ var songRequest = {
     },
 
     getSongs: function(onSuccess) {
-        songModel.find().exec(function(error, songs) {
-            if (error) {
-                console.log(error);
-            }
-            else if (onSuccess) {
-                onSuccess(songs);
-            }
-        });
+        songDao.getAll(onSuccess);
     },
 
     getCurrentSong: function(onSuccess) {
-        this.getSongs(function(songs) {
-            onSuccess(songs ? songs[0] : null);
-        })
+        songDao.getNext(onSuccess);
     },
 
     deleteSong: function(songId, onSuccess) {
-        songModel.findByIdAndRemove(songId, function (error) {
-            if (error) {
-                console.log(error);
-            }
-            else if(onSuccess) {
-                onSuccess(songId);
-            }
+        songDao.delete(songId, songType, function() {
+            onSuccess(songId);
         });
     },
 
@@ -73,15 +48,8 @@ var songRequest = {
         }
     },
 
-    updateSong: function(currentSong, data) {
-        data = data || currentSong;
-
-        songModel.findById(currentSong._id, function (error, song) {
-            if (!error) {
-                song.skips = currentSong.skips;
-                song.save();
-            }
-        });
+    updateSong: function(currentSong, skips) {
+        songDao.updateSkip(currentSong.songId, currentSong.type, skips);
     }
 };
 

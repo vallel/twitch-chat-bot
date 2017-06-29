@@ -4,6 +4,7 @@ var command = require('../services/command');
 exports.rankingList = function(req, res, next) {
     rank.getRanking(function(rankingList) {
         command.get('gamble', function(data) {
+            var gambleEnabled = data ? data.enabled : false;
             command.getConfig('gamble', 'cooldown', function(config) {
                 var gambleCooldown = config && config.value != undefined ? config.value : 0;
 
@@ -11,7 +12,7 @@ exports.rankingList = function(req, res, next) {
                     title: 'Twitch Chat Bot - Puntos',
                     rankingPage: true,
                     rankingList: rankingList,
-                    gambleEnabled: data.enabled,
+                    gambleEnabled: gambleEnabled,
                     gambleCooldown: gambleCooldown
                 });
             });

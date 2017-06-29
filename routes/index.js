@@ -1,12 +1,26 @@
 var express = require('express');
 var router = express.Router();
+var config = require('../app/config');
 
-var songRequestController = require('../app/controllers/songRequest.js');
+var loginController = require('../app/controllers/login');
+var songRequestController = require('../app/controllers/songRequest');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Twitch Chat Bot', indexPage: true });
+    if (req.session.oauth) {
+        res.redirect('/puntos');
+    } else {
+        res.render('index', {
+            title: 'Twitch Chat Bot',
+            loginPage: true,
+            clientId: config.twitchApp.clientId,
+            redirectUrl: config.twitchApp.redirectUrl,
+            scope: config.twitchApp.scope
+        });
+    }
 });
+
+router.get('/login', loginController.login);
 
 /* GET song request page */
 router.get('/songrequest', songRequestController.songsList);
