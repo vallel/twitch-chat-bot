@@ -18,7 +18,7 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.ENDED) {
         twitchBot.songRequest.updateCurrentSong(function(song) {
-            player.loadVideoById(song.videoId);
+            player.loadVideoById(song.songId);
         });
     }
 }

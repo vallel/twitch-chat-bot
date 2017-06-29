@@ -8,7 +8,10 @@ var twitchBot = twitchBot || {};
 
         deleteCurrentSong: function(callback) {
             var songId = twitchBot.songRequest.getCurrentSongId();
+            twitchBot.songRequest.deleteSong(songId, callback);
+        },
 
+        deleteSong: function (songId, callback) {
             $.ajax({
                 url: '/songrequest/delete-song',
                 data: {songId: songId},
@@ -91,6 +94,14 @@ var twitchBot = twitchBot || {};
 
     function wireEvents() {
         $('.js-song-request-skip').click(twitchBot.youtube.skipSong);
+        $('.js-song-request-delete').click(deleteSong);
+    }
+
+    function deleteSong() {
+        var $deleteButton = $(this);
+        twitchBot.songRequest.deleteSong($deleteButton.attr('data-song-id'), function() {
+            $deleteButton.parents('tr').remove();
+        });
     }
 
     $(function() {
