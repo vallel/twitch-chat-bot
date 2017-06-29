@@ -22,11 +22,11 @@ var rank = {
     },
 
     incrementUserPoints: function(userName, increment, isGamble, callback) {
-        pointsDao.increment(userName, increment, isGamble, callback);
+        pointsDao.increment(userName.toLowerCase(), increment, isGamble, callback);
     },
 
     getPoints: function(userName, callback) {
-        this.getRankData(userName, function (data) {
+        this.getRankData(userName.toLowerCase(), function (data) {
             var points = data && data.points ? data.points : 0;
             callback(points);
         });

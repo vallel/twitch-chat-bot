@@ -2,6 +2,10 @@ var twitchBot = twitchBot || {};
 
 (function($) {
     twitchBot.songRequest = {
+        init: function () {
+            wireEvents();
+        },
+
         deleteCurrentSong: function(callback) {
             var songId = twitchBot.songRequest.getCurrentSongId();
 
@@ -42,7 +46,7 @@ var twitchBot = twitchBot || {};
                             $currentSongContainer = $('.js-current-song-container'),
                             userLink = '<a href="http://twitch.tv/'+ currentSong.userName +'">'+ currentSong.userName +'</a>';
 
-                        $currentSongContainer.attr('data-song-id', currentSong._id);
+                        $currentSongContainer.attr('data-song-id', currentSong.songId);
                         $currentSongContainer.find('.js-current-song-title').html(currentSong.title);
                         $currentSongContainer.find('.js-current-song-username').html(userLink);
                         $currentSongContainer.find('.js-current-song-date').html(currentSong.date);
@@ -84,4 +88,12 @@ var twitchBot = twitchBot || {};
             });
         }
     };
+
+    function wireEvents() {
+        $('.js-song-request-skip').click(twitchBot.youtube.skipSong);
+    }
+
+    $(function() {
+        twitchBot.songRequest.init();
+    });
 })(jQuery);

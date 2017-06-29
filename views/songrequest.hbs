@@ -2,7 +2,7 @@
     <h1>Song Request</h1>
 </div>
 
-<div class="well js-current-song-container {{#unless currentSong}}hidden{{/unless}}" data-song-id="{{#if currentSong }}{{currentSong.id}}{{/if}}">
+<div class="well js-current-song-container {{#unless currentSong}}hidden{{/unless}}" data-song-id="{{#if currentSong }}{{currentSong.songId}}{{/if}}">
     <div class="row">
         <div class="col-md-5">
             <iframe id="js-youtube-player"
@@ -17,7 +17,7 @@
             <p><span class="glyphicon glyphicon-user"></span> <span class="js-current-song-username"><a href="http://twitch.tv/{{currentSong.userName}}">{{currentSong.userName}}</a></span></p>
             <p><span class="glyphicon glyphicon-calendar"></span> <span class="js-current-song-date">{{currentSong.date}}</span></p>
             <button class="btn btn-warning js-song-request-skip">Saltar canción <span class="glyphicon glyphicon-step-forward"></span></button>
-            <button class="btn btn-danger js-song-request-veto" data-video-id="{{currentSong.id}}">Vetar canción <span class="glyphicon glyphicon-ban-circle"></span></button>
+            <button class="btn btn-danger js-song-request-veto" data-video-id="{{currentSong.songId}}">Vetar canción <span class="glyphicon glyphicon-ban-circle"></span></button>
         </div>
     </div>
 </div>
@@ -43,7 +43,7 @@
                 </td>
                 <td><span class="glyphicon glyphicon-calendar"></span> {{date}}</td>
                 <td class="col-md-2 text-right">
-                    <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{{id}}"></button>
+                    <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{{songId}}"></button>
                 </td>
             </tr>
             {{/each}}
