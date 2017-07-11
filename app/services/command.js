@@ -2,8 +2,12 @@ var commandDao = require('../data/command');
 var cmdConfigDao = require('../data/commandConfig');
 
 var command = {
-    save: function(commandName, enabled, callback) {
-        commandDao.createOrUpdate(commandName, enabled, callback);
+    save: function(commandName, message, enabled, isDefault, callback) {
+        commandDao.createOrUpdate(commandName, message, enabled, isDefault, callback);
+    },
+
+    getAll: function (callback) {
+        commandDao.getAll(callback);
     },
 
     get: function(commandName, callback) {

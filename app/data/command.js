@@ -10,10 +10,20 @@ var command = {
         });
     },
 
-    createOrUpdate: function(name, enabled, fn) {
-        db.run("INSERT OR REPLACE INTO commands (name, enabled) VALUES ($name, $enabled);", {
+    getAll: function (fn) {
+        db.all("SELECT * FROM commands ORDER BY `default` DESC;", function (error, data) {
+            if (!error && fn) {
+                fn(data);
+            }
+        });
+    },
+
+    createOrUpdate: function(name, message, enabled, isDefault, fn) {
+        db.run("INSERT OR REPLACE INTO commands (name, message, enabled, `default`) VALUES ($name, $message, $enabled, $default);", {
             $name: name,
-            $enabled: enabled
+            $message: message,
+            $enabled: enabled,
+            $default: isDefault
         }, function (error) {
             if (!error && fn) {
                 fn();

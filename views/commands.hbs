@@ -1,0 +1,67 @@
+<div class="page-header">
+    <h1>Comandos</h1>
+</div>
+
+<button class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#command">Crear comando</button>
+
+<div class="panel">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Comando</th>
+                <th>Mensaje</th>
+                <th>Habilitado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each commands}}
+                <tr class="{{#if default}}active{{/if}}">
+                    <td>!{{name}}</td>
+                    <td>{{message}}</td>
+                    <td>{{enabled}}</td>
+                    <td></td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="command" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form action="/comandos/nuevo" method="post" class="modal-content form-horizontal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Crear comando</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="commandName" class="col-sm-2 control-label">Comando</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="commandName" name="commandName" placeholder="Comando">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="commandMessage" class="col-sm-2 control-label">Mensaje</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="commandMessage" name="commandMessage" placeholder="Mensaje">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" checked="checked" name="commandEnabled"> Comando habilitado
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
