@@ -3,6 +3,7 @@ var cmdConfigDao = require('../data/commandConfig');
 
 var command = {
     save: function(commandName, message, enabled, isDefault, callback) {
+        commandName.replace(/\W/g, '');
         commandDao.createOrUpdate(commandName, message, enabled, isDefault, callback);
     },
 
