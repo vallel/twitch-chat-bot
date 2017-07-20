@@ -150,6 +150,14 @@ function init() {
             });
         }
 
+        command.getList(false, function(data) {
+            for (var i = 0; i < data.length; i++) {
+                if (message.indexOf('!' + data[i].name) === 0 && data[i].enabled) {
+                    client.say(channel, data[i].message);
+                }
+            }
+        });
+
     });
 
     client.on("hosted", function (channel, username, viewers, autohost) {
