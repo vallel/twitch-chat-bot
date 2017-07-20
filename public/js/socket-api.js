@@ -14,6 +14,7 @@ var twitchBot = twitchBot || {};
         socket.on('!play', twitchBot.youtube.play);
         socket.on('!stop', twitchBot.youtube.stop);
         socket.on('!pause', twitchBot.youtube.pause);
+        socket.on('!songrequest', twitchBot.youtube.update);
     }
 
     $(function() {

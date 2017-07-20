@@ -53,6 +53,7 @@ var twitchBot = twitchBot || {};
                         $currentSongContainer.find('.js-current-song-title').html(currentSong.title);
                         $currentSongContainer.find('.js-current-song-username').html(userLink);
                         $currentSongContainer.find('.js-current-song-date').html(currentSong.date);
+                        $currentSongContainer.removeClass('hidden');
 
                         if (callback) {
                             callback(currentSong);

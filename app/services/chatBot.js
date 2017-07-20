@@ -54,6 +54,7 @@ function init() {
 
             if (query) {
                 songRequest.addSong(user, query, function(songTitle) {
+                    bot.socketApi.sendMessage('!songrequest', true);
                     client.say(channel, 'La canción ' + songTitle + ' ha sido agregada a la lista de reproducción por ' + user);
                 });
             }

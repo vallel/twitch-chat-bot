@@ -23,33 +23,31 @@
 </div>
 
 <h4>Lista de reproducción:</h4>
-{{#if songs}}
-    <table class="table js-song-request-playlist">
-        <thead>
-            <tr>
-                <th>Canción</th>
-                <th>Usuario</th>
-                <th>Fecha</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each songs}}
-            <tr class="{{#if @first}}active{{/if}}">
-                <td>{{#if @first}}<span class="glyphicon glyphicon-music"></span> {{/if}}{{title}}</td>
-                <td>
-                    <span class="glyphicon glyphicon-user"></span>
-                    <a href="http://twitch.tv/{{userName}}" target="_blank">{{userName}}</a>
-                </td>
-                <td><span class="glyphicon glyphicon-calendar"></span> {{date}}</td>
-                <td class="col-md-2 text-right">
-                    <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{{songId}}"></button>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-{{/if}}
+<table class="table js-song-request-playlist">
+    <thead>
+        <tr>
+            <th>Canción</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each songs}}
+        <tr class="{{#if @first}}active{{/if}}">
+            <td>{{#if @first}}<span class="glyphicon glyphicon-music"></span> {{/if}}{{title}}</td>
+            <td>
+                <span class="glyphicon glyphicon-user"></span>
+                <a href="http://twitch.tv/{{userName}}" target="_blank">{{userName}}</a>
+            </td>
+            <td><span class="glyphicon glyphicon-calendar"></span> {{date}}</td>
+            <td class="col-md-2 text-right">
+                <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{{songId}}"></button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 
 <table class="js-playlist-song-template hidden">
     <tbody>
