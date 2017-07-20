@@ -27,7 +27,7 @@ var command = {
     },
 
     getCustom: function(fn) {
-        db.all("SELECT * FROM commands WHERE `default` IS NULL ORDER BY `default` DESC;", function (error, data) {
+        db.all("SELECT * FROM commands WHERE `default` = 0 or `default` IS NULL ORDER BY `default` DESC;", function (error, data) {
             if (!error && fn) {
                 fn(data);
             }
