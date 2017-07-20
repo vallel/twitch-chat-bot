@@ -1,7 +1,7 @@
 var command = require('../services/command');
 
 exports.index = function(req, res, next) {
-    command.getAll(function (commands) {
+    command.getList(false, function (commands) {
         res.render('commands', {
             'commands': commands
         });

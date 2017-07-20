@@ -11,6 +11,11 @@ var command = {
         commandDao.getAll(callback);
     },
 
+    getList: function (defaultCommands, callback) {
+        var typeMethod = defaultCommands ? 'getDefault' : 'getCustom';
+        commandDao[typeMethod](callback);
+    },
+
     get: function(commandName, callback) {
         commandDao.get(commandName, callback);
     },
