@@ -4,7 +4,7 @@ var db = new sqlite.Database('twitchBot.db');
 var song = {
     add: function(songId, title, type, userName, query, fn) {
         db.run("INSERT INTO songs (songId, title, type, userName, query, date) " +
-            "VALUES (?, ?, ?, ?, ?, strftime('%Y-%m-%d %H-%M-%f','now'));",
+            "VALUES (?, ?, ?, ?, ?, datetime('now', 'localtime'));",
             [songId, title, type, userName, query],
             function(error) {
             if (!error && fn) {

@@ -1,7 +1,14 @@
+var moment = require('moment');
+
 var register = function(hbs) {
     var helpers = {
         add: function (a, b) {
             return a + b;
+        },
+
+        formatDate: function(date, format) {
+            console.log(date);
+            return moment(date).format(format);
         }
     };
 

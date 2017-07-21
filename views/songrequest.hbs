@@ -40,7 +40,7 @@
                 <span class="glyphicon glyphicon-user"></span>
                 <a href="http://twitch.tv/{{userName}}" target="_blank">{{userName}}</a>
             </td>
-            <td><span class="glyphicon glyphicon-calendar"></span> {{date}}</td>
+            <td><span class="glyphicon glyphicon-calendar"></span> {{formatDate date 'Y-MM-DD HH:mm:ss'}}</td>
             <td class="col-md-2 text-right">
                 <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{{songId}}"></button>
             </td>
@@ -57,7 +57,7 @@
                 <span class="glyphicon glyphicon-user"></span>
                 <a href="http://twitch.tv/{userName}" target="_blank">{userName}</a>
             </td>
-            <td><span class="glyphicon glyphicon-calendar"></span> {date}</td>
+            <td><span class="glyphicon glyphicon-calendar"></span> {{formatDate date 'Y-MM-DD HH:mm:ss'}}</td>
             <td class="col-md-2 text-right">
                 <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{id}"></button>
             </td>
