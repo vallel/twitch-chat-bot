@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
 var hbs = require('hbs');
 var hbsHelpers = require('./app/handlebars/helpers')(hbs);
+var bot = require('./app/services/chatBot');
 
 var index = require('./routes/index');
 var ranking = require('./routes/ranking');
@@ -40,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
     if (req.session.twitchId || req.path === '/' || req.path === '/login') {
-        res.locals.userName = req.session.displayName;
+        res.locals.isBotConnected = bot.isConnected(req.session.name);
         next();
     } else {
         res.redirect('/');

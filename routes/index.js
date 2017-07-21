@@ -4,6 +4,7 @@ var config = require('../app/config');
 
 var loginController = require('../app/controllers/login');
 var songRequestController = require('../app/controllers/songRequest');
+var botController = require('../app/controllers/bot');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -21,6 +22,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', loginController.login);
+
+router.post('/join-channel', botController.joinChannel);
+router.post('/leave-channel', botController.leaveChannel);
 
 /* GET song request page */
 router.get('/songrequest', songRequestController.songsList);

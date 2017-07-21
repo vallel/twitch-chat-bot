@@ -1,5 +1,4 @@
 var conf = {
-    twitchChannel: '<YOUR TWITCH CHANNEL USER NAME>',
     twitchApp: {
         clientId: '<YOUR TWITCH CLIENT ID>',
         secretKey: '<SECRET KEY>',

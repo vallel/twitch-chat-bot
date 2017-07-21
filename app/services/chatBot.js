@@ -5,8 +5,6 @@ var rank = require('./rank');
 var gamble = require('./gamble');
 var command = require('./command');
 
-var channel = appConfig.twitchChannel;
-
 var config = {
     options: {
         debug: true //TODO: turn this off
@@ -19,19 +17,40 @@ var config = {
         username: appConfig.botOauth.username,
         password: appConfig.botOauth.oAuthKey
     },
-    channels: [channel]
+    channels: []
 };
 
 var client = null;
 
 var bot = {
     socketApi: null,
+    
+    connectedTo: [],
 
     connect: function () {
         client = new tmi.client(config);
         client.connect();
 
         init();
+    },
+
+    join: function(channel) {
+        if (!bot.isConnected(channel)) {
+            client.join(channel);
+            bot.connectedTo.push(channel);
+        }
+    },
+
+    part: function(channel) {
+        if (bot.isConnected(channel)) {
+            client.part(channel);
+            bot.connectedTo.splice(bot.connectedTo.indexOf(channel), 1);
+        }
+    },
+
+    isConnected: function(channel) {
+        var index = bot.connectedTo.indexOf(channel);
+        return index !== -1;
     }
 };
 
