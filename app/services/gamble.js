@@ -3,8 +3,8 @@ var rank = require('./rank'),
     command = require('./command');
 
 var gamble = {
-    run: function(userName, points, callback) {
-        rank.getRankData(userName, function(rankData) {
+    run: function(channel, userName, points, callback) {
+        rank.getRankData(channel, userName, function(rankData) {
             command.getConfig('gamble', 'cooldown', function(config) {
                 var gambleCooldown = config && config.value != undefined ? config.value : 0;
 
@@ -24,8 +24,8 @@ var gamble = {
 
                         if (factor !== 0) {
                             var newPoints = points * factor;
-                            rank.incrementUserPoints(userName, newPoints, true, function () {
-                                rank.getPoints(userName, function (currentPoints) {
+                            rank.incrementUserPoints(channel, userName, newPoints, true, function () {
+                                rank.getPoints(channel, userName, function (currentPoints) {
                                     if (callback) {
                                         var win = factor > 0;
                                         callback(result, win, Math.abs(newPoints), currentPoints);

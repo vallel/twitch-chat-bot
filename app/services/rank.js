@@ -3,45 +3,51 @@ var csv = require('csv');
 var fs = require('fs');
 var pointsDao = require('../data/points');
 var appConfig = require('../config'),
-    moment = require('moment');
+    moment = require('moment'),
+    chat = require('./chat');
 
 var rank = {
-    init: function() {
-        setInterval(function() {
-            getConnectedUsers(function (users) {
-                rank.incrementPoints(users);
-            });
+    channelIntervals: {},
+
+    init: function(channel) {
+        rank.channelIntervals[channel] = setInterval(function() {
+            var users = chat.getConnectedUsers(channel);
+            rank.incrementPoints(channel, users);
         }, 60000);
     },
 
-    incrementPoints: function(users, increment, callback) {
+    stop: function(channel) {
+        clearInterval(rank.channelIntervals[channel]);
+    },
+
+    incrementPoints: function(channel, users, increment, callback) {
         increment = increment || 1;
         for (var i = 0; i < users.length; i++) {
-            rank.incrementUserPoints(users[i], increment, false, callback);
+            rank.incrementUserPoints(channel, users[i], increment, false, callback);
         }
     },
 
-    incrementUserPoints: function(userName, increment, isGamble, callback) {
-        pointsDao.increment(userName.toLowerCase(), increment, isGamble, callback);
+    incrementUserPoints: function(channel, userName, increment, isGamble, callback) {
+        pointsDao.increment(channel, userName.toLowerCase(), increment, isGamble, callback);
     },
 
-    getPoints: function(userName, callback) {
-        this.getRankData(userName.toLowerCase(), function (data) {
+    getPoints: function(channel, userName, callback) {
+        this.getRankData(channel, userName.toLowerCase(), function (data) {
             var points = data && data.points ? data.points : 0;
             callback(points);
         });
     },
 
-    getRankData: function(userName, callback) {
-        pointsDao.get(userName, callback);
+    getRankData: function(channel, userName, callback) {
+        pointsDao.get(channel, userName, callback);
     },
 
-    getRanking: function(callback) {
+    getRanking: function(channel, callback) {
         var noShowUsers = [appConfig.twitchChannel, appConfig.botOauth.username];
-        pointsDao.getFiltered(noShowUsers, callback);
+        pointsDao.getFiltered(channel, noShowUsers, callback);
     },
 
-    importCsv: function(filePath, callback) {
+    importCsv: function(channel, filePath, callback) {
         fs.createReadStream(filePath).pipe(csv.parse({delimiter: ','}, function(error, data) {
             if (error) {
                 console.log(error);
@@ -53,7 +59,7 @@ var rank = {
                     * Username,Twitch User ID,Current Points,All Time Points
                     * */
                     for (var i = 1; i < data.length; i++) {
-                        rank.incrementUserPoints(data[i][0], data[i][2]);
+                        rank.incrementUserPoints(channel, data[i][0], data[i][2]);
                     }
                 }
 
@@ -66,29 +72,5 @@ var rank = {
         }));
     }
 };
-
-function getConnectedUsers(callback) {
-    var channel = appConfig.twitchChannel;
-
-    request({
-        url: 'https://tmi.twitch.tv/group/user/'+channel+'/chatters',
-        json: true
-    }, function(error, response, body) {
-        if (!error && response.statusCode === 200) {
-            var users = [];
-
-            if (body.chatters) {
-                for (var userType in body.chatters) {
-                    var userNames = body.chatters[userType];
-                    for (var i = 0; i < userNames.length; i++) {
-                        users.push(userNames[i]);
-                    }
-                }
-            }
-
-            callback(users);
-        }
-    });
-}
 
 module.exports = rank;

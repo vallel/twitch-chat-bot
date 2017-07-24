@@ -2,7 +2,7 @@ var rank = require('../services/rank');
 var command = require('../services/command');
 
 exports.rankingList = function(req, res, next) {
-    rank.getRanking(function(rankingList) {
+    rank.getRanking(req.session.name, function(rankingList) {
         command.get('gamble', function(data) {
             var gambleEnabled = data ? data.enabled : false;
             command.getConfig('gamble', 'cooldown', function(config) {

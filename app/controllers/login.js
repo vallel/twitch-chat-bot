@@ -1,4 +1,5 @@
-var twitchApi = require('../services/twitchApi');
+var twitchApi = require('../services/twitchApi'),
+    channelDao = require('../data/channel');
 
 exports.login = function(req, res, next) {
     var code = req.query.code;
@@ -16,6 +17,8 @@ exports.login = function(req, res, next) {
             req.session.displayName = data.displayName;
             req.session.logo = data.logo;
             req.session.email = data.email;
+
+            channelDao.add(data.name);
 
             res.redirect('/puntos');
         })

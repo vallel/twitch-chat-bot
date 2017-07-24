@@ -4,6 +4,7 @@ var songRequest = require('./songRequest');
 var rank = require('./rank');
 var gamble = require('./gamble');
 var command = require('./command');
+var chat = require('./chat');
 
 var config = {
     options: {
@@ -37,6 +38,7 @@ var bot = {
     join: function(channel) {
         if (!bot.isConnected(channel)) {
             client.join(channel);
+            rank.init(channel);
             bot.connectedTo.push(channel);
         }
     },
@@ -55,7 +57,6 @@ var bot = {
 };
 
 function init() {
-    rank.init();
 
     client.on("connected", function (address, port) {
         // client.say(channel, 'Bienvenidos al canal.');
@@ -66,6 +67,7 @@ function init() {
         if (self) return;
 
         var user = userstate['display-name'];
+        channel = channel.replace('#', '');
 
         if (message.indexOf('!songrequest') === 0 || message.indexOf('!sr') === 0) {
             var query = message.replace('!songrequest', '').trim();
@@ -144,7 +146,7 @@ function init() {
         }
 
         if (message.indexOf('!points') === 0) {
-            rank.getPoints(user, function(points) {
+            rank.getPoints(channel, user, function(points) {
                 client.say(channel, user + ' tiene ' + points + ' puntos.');
             });
         }
@@ -154,7 +156,7 @@ function init() {
             command.get('gamble', function (data) {
                 if (data && data.enabled) {
                     if (parseInt(points) > 0) {
-                        gamble.run(user, points, function(result, win, points, currentPoints, nextGamble) {
+                        gamble.run(channel, user, points, function(result, win, points, currentPoints, nextGamble) {
                             if (nextGamble) {
                                 client.say(channel, user + ' no puedes apostar en este momento, debes esperar al menos '+ nextGamble +' minutos.');
                             } else if (result === -1) {
@@ -178,6 +180,16 @@ function init() {
             }
         });
 
+    });
+
+    client.on("join", function (channel, username, self) {
+        channel = channel.replace('#', '');
+        chat.addConnectedUser(channel, username);
+    });
+
+    client.on("part", function (channel, username, self) {
+        channel = channel.replace('#', '');
+        chat.removeConnectedUser(channel, username);
     });
 
     client.on("hosted", function (channel, username, viewers, autohost) {
