@@ -1,48 +1,74 @@
 var sqlite = require('sqlite3').verbose();
 var db = new sqlite.Database('twitchBot.db');
+var channelDao = require('./channel');
 
 var command = {
-    get: function (name, fn) {
-        db.get("SELECT * FROM commands WHERE name = ?", [name], function(error, data) {
-            if (!error && fn) {
-                fn(data);
+    get: function (channel, name, fn) {
+        db.get("SELECT c.* FROM commands c JOIN channels ch ON c.channelId = ch.id WHERE ch.name = $channel AND c.name = $command", {
+                $channel: channel,
+                $command: name
+            }, function(error, data) {
+                if (error) {
+                    console.log(error);
+                } else if (fn) {
+                    fn(data);
+                }
             }
+        );
+    },
+
+    getAll: function (channel, fn) {
+        db.all("SELECT c.* FROM commands c JOIN channels ch ON c.channelId = ch.id WHERE ch.name = $channel ORDER BY `default` DESC;", {
+                $channel: channel
+            }, function (error, data) {
+                if (error) {
+                    console.log(error);
+                } else if (fn) {
+                    fn(data);
+                }
         });
     },
 
-    getAll: function (fn) {
-        db.all("SELECT * FROM commands ORDER BY `default` DESC;", function (error, data) {
-            if (!error && fn) {
-                fn(data);
-            }
+    getDefault: function(channel, fn) {
+        db.all("SELECT c.* FROM commands c JOIN channels ch ON c.channelId = ch.id WHERE ch.name = $channel AND `default` = 1 ORDER BY `default` DESC;", {
+                $channel: channel
+            }, function (error, data) {
+                if (error) {
+                    console.log(error);
+                } else if (fn) {
+                    fn(data);
+                }
         });
     },
 
-    getDefault: function(fn) {
-        db.all("SELECT * FROM commands WHERE `default` = 1 ORDER BY `default` DESC;", function (error, data) {
-            if (!error && fn) {
-                fn(data);
-            }
+    getCustom: function(channel, fn) {
+        db.all("SELECT c.* FROM commands c JOIN channels ch ON c.channelId = ch.id WHERE ch.name = $channel AND c.`default` = 0 OR c.`default` IS NULL ORDER BY `default` DESC;", {
+                $channel: channel
+            },function (error, data) {
+                if (error) {
+                    console.log(error);
+                } else if (fn) {
+                    fn(data);
+                }
         });
     },
 
-    getCustom: function(fn) {
-        db.all("SELECT * FROM commands WHERE `default` = 0 or `default` IS NULL ORDER BY `default` DESC;", function (error, data) {
-            if (!error && fn) {
-                fn(data);
-            }
-        });
-    },
-
-    createOrUpdate: function(name, message, enabled, isDefault, fn) {
-        db.run("INSERT OR REPLACE INTO commands (name, message, enabled, `default`) VALUES ($name, $message, $enabled, $default);", {
-            $name: name,
-            $message: message,
-            $enabled: enabled,
-            $default: isDefault
-        }, function (error) {
-            if (!error && fn) {
-                fn();
+    createOrUpdate: function(channel, name, message, enabled, isDefault, fn) {
+        channelDao.get(channel, function(data) {
+            if (data && data.id) {
+                db.run("INSERT OR REPLACE INTO commands (channelId, name, message, enabled, `default`) VALUES ($channelId, $name, $message, $enabled, $default);", {
+                        $channelId: data.id,
+                        $name: name,
+                        $message: message,
+                        $enabled: enabled,
+                        $default: isDefault
+                    }, function (error) {
+                        if (error) {
+                            console.log(error);
+                        } else if (fn) {
+                            fn();
+                        }
+                });
             }
         });
     }

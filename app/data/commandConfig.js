@@ -1,9 +1,11 @@
 var sqlite = require('sqlite3').verbose();
 var db = new sqlite.Database('twitchBot.db');
+var channelDao = require('./channel');
 
 var commandConfig = {
-    get: function (command, configKey, fn) {
-        db.get("SELECT * FROM commandConfigs WHERE command = $command AND key = $key;", {
+    get: function (channel, command, configKey, fn) {
+        db.get("SELECT cc.* FROM commandConfigs cc JOIN channels c ON cc.channelId = c.id WHERE c.name = $channel AND cc.command = $command AND cc.key = $key;", {
+            $channel: channel,
             $command: command,
             $key: configKey
         }, function(error, data) {
@@ -13,14 +15,19 @@ var commandConfig = {
         });
     },
 
-    createOrUpdate: function(command, key, value, fn) {
-        db.run("INSERT OR REPLACE INTO commandConfigs (command, key, value) VALUES ($command, $key, $value);", {
-            $command: command,
-            $key: key,
-            $value: value
-        }, function (error) {
-            if (!error && fn) {
-                fn();
+    createOrUpdate: function(channel, command, key, value, fn) {
+        channelDao.get(channel, function (data) {
+            if (data && data.id) {    
+                db.run("INSERT OR REPLACE INTO commandConfigs (channelId, command, key, value) VALUES ($channelId, $command, $key, $value);", {
+                    $channelId: data.id,
+                    $command: command,
+                    $key: key,
+                    $value: value
+                }, function (error) {
+                    if (!error && fn) {
+                        fn();
+                    }
+                });
             }
         });
     }

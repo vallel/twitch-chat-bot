@@ -1,7 +1,7 @@
 var command = require('../services/command');
 
 exports.index = function(req, res, next) {
-    command.getList(false, function (commands) {
+    command.getList(req.session.name, false, function (commands) {
         res.render('commands', {
             'commands': commands
         });
@@ -9,25 +9,27 @@ exports.index = function(req, res, next) {
 };
 
 exports.create = function(req, res, next) {
-    var commandName = req.body.commandName,
+    var channel = req.session.name,
+        commandName = req.body.commandName,
         message = req.body.commandMessage,
         enabled = req.body.commandEnabled;
 
     if (commandName && message && enabled) {
-        command.save(commandName, message, enabled, false, function() {
+        command.save(channel, commandName, message, enabled, false, function() {
             res.redirect('/comandos');
         });
     }
 };
 
 exports.saveGamble = function(req, res, next) {
-    var commandName = req.body.command,
+    var channel = req.session.name,
+        commandName = req.body.command,
         enabled = req.body.enabled || false,
         cooldown = parseInt(req.body.cooldown);
 
     if (commandName) {
-        command.save(commandName, '', enabled, true, function () {
-            command.saveConfig(commandName, 'cooldown', req.body.cooldown, function() {
+        command.save(channel, commandName, '', enabled, true, function () {
+            command.saveConfig(channel, commandName, 'cooldown', req.body.cooldown, function() {
                 res.redirect('/puntos');
             });
         });

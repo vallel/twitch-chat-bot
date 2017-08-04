@@ -5,7 +5,7 @@ var rank = require('./rank'),
 var gamble = {
     run: function(channel, userName, points, callback) {
         rank.getRankData(channel, userName, function(rankData) {
-            command.getConfig('gamble', 'cooldown', function(config) {
+            command.getConfig(channel, 'gamble', 'cooldown', function(config) {
                 var gambleCooldown = config && config.value != undefined ? config.value : 0;
 
                 if (!rankData.lastGamble || moment() >= moment(rankData.lastGamble).add(gambleCooldown, 'm')) {

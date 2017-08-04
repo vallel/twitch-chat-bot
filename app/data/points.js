@@ -50,7 +50,9 @@ var points = {
                         $userName: userName,
                         $increment: increment
                 }, function (error) {
-                    if (!error && fn) {
+                    if (error) {
+                        console.log(error);
+                    } else if (fn) {
                         fn();
                     }
                 });

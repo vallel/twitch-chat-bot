@@ -153,7 +153,7 @@ function init() {
 
         if (message.indexOf('!gamble') === 0) {
             var points = message.replace('!gamble', '').trim();
-            command.get('gamble', function (data) {
+            command.get(channel, 'gamble', function (data) {
                 if (data && data.enabled) {
                     if (parseInt(points) > 0) {
                         gamble.run(channel, user, points, function(result, win, points, currentPoints, nextGamble) {
@@ -172,7 +172,7 @@ function init() {
             });
         }
 
-        command.getList(false, function(data) {
+        command.getList(channel, false, function(data) {
             for (var i = 0; i < data.length; i++) {
                 if (message.indexOf('!' + data[i].name) === 0 && data[i].enabled) {
                     client.say(channel, data[i].message);
