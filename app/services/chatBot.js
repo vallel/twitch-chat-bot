@@ -66,7 +66,7 @@ function init() {
         // Don't listen to my own messages..
         if (self) return;
 
-        var user = userstate['display-name'];
+        var user = userstate['display-name'].toLowerCase();
         channel = channel.replace('#', '');
 
         if (message.indexOf('!songrequest') === 0 || message.indexOf('!sr') === 0) {

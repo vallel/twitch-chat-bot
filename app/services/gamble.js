@@ -10,7 +10,6 @@ var gamble = {
 
                 if (!rankData.lastGamble || moment() >= moment(rankData.lastGamble).add(gambleCooldown, 'm')) {
                     var currentPoints = rankData.points || 0;
-                    userName = userName.toLowerCase();
                     if (currentPoints >= points) {
                         var result = Math.round(Math.random() * 100),
                             factor = 0;
