@@ -2,7 +2,7 @@
     <h1>Song Request</h1>
 </div>
 
-<div class="well js-current-song-container {{#unless currentSong}}hidden{{/unless}}" data-song-id="{{#if currentSong }}{{currentSong.songId}}{{/if}}">
+<div class="well js-current-song-container {{#unless currentSong}}hidden{{/unless}}" data-song-id="{{#if currentSong }}{{currentSong.id}}{{/if}}">
     <div class="row">
         <div class="col-md-5">
             <iframe id="js-youtube-player"
@@ -42,7 +42,7 @@
             </td>
             <td><span class="glyphicon glyphicon-calendar"></span> {{formatDate date 'Y-MM-DD HH:mm:ss'}}</td>
             <td class="col-md-2 text-right">
-                <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{{songId}}"></button>
+                <button class="btn btn-xs btn-danger glyphicon glyphicon-trash js-song-request-delete" data-song-id="{{id}}"></button>
             </td>
         </tr>
         {{/each}}

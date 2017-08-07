@@ -74,7 +74,7 @@ function init() {
             query = query.replace('!sr', '').trim();
 
             if (query) {
-                songRequest.addSong(user, query, function(songTitle) {
+                songRequest.addSong(channel, user, query, function(songTitle) {
                     bot.socketApi.sendMessage('!songrequest', true);
                     client.say(channel, 'La canción ' + songTitle + ' ha sido agregada a la lista de reproducción por ' + user);
                 });
@@ -83,7 +83,7 @@ function init() {
 
         if (message.indexOf('!skip') === 0) {
 
-            songRequest.getCurrentSong(function(currentSong) {
+            songRequest.getCurrentSong(channel, function(currentSong) {
                 if (currentSong) {
                     var skips = [];
                     if (currentSong.skips) {
@@ -96,7 +96,7 @@ function init() {
                         if (skips.length < songRequest.skipLimit) {
                             songRequest.updateSong(currentSong, skips);
                         } else {
-                            songRequest.deleteSong(currentSong._id, function() {
+                            songRequest.deleteSong(currentSong.id, function() {
                                 bot.socketApi.sendMessage('!skip', true);
                             });
                         }
@@ -138,7 +138,7 @@ function init() {
         }
 
         if (message.indexOf('!currentsong') === 0) {
-            songRequest.getCurrentSong(function(currentSong) {
+            songRequest.getCurrentSong(channel, function(currentSong) {
                 if (currentSong) {
                     client.say(channel, "La canción actual es " + currentSong.title + " y fue agregada por " + currentSong.userName);
                 }

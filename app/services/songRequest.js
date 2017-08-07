@@ -6,7 +6,7 @@ var songType = 'youtube';
 var songRequest = {
     skipLimit: 3,
 
-    addSong: function(userName, query, onSuccess) {
+    addSong: function(channel, userName, query, onSuccess) {
         youtube.search(query, function(error, results) {
             if (error) {
                 console.log(error);
@@ -17,7 +17,7 @@ var songRequest = {
                         title = video.snippet.title,
                         songId = video.id.videoId;
 
-                    songDao.add(songId, title, songType, userName, query, function() {
+                    songDao.add(channel, songId, title, songType, userName, query, function() {
                         onSuccess(title);
                     });
                 }
@@ -25,17 +25,17 @@ var songRequest = {
         });
     },
 
-    getSongs: function(onSuccess) {
-        songDao.getAll(onSuccess);
+    getSongs: function(channel, onSuccess) {
+        songDao.getAll(channel, onSuccess);
     },
 
-    getCurrentSong: function(onSuccess) {
-        songDao.getNext(onSuccess);
+    getCurrentSong: function(channel, onSuccess) {
+        songDao.getNext(channel, onSuccess);
     },
 
-    deleteSong: function(songId, onSuccess) {
-        songDao.delete(songId, songType, function() {
-            onSuccess(songId);
+    deleteSong: function(id, onSuccess) {
+        songDao.delete(id, function() {
+            onSuccess(id);
         });
     },
 
@@ -49,7 +49,7 @@ var songRequest = {
     },
 
     updateSong: function(currentSong, skips) {
-        songDao.updateSkip(currentSong.songId, currentSong.type, skips);
+        songDao.updateSkip(currentSong.id, currentSong.type, skips);
     }
 };
 

@@ -7,7 +7,6 @@ var register = function(hbs) {
         },
 
         formatDate: function(date, format) {
-            console.log(date);
             return moment(date).format(format);
         }
     };

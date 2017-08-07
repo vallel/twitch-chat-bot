@@ -11,10 +11,10 @@ var twitchBot = twitchBot || {};
             twitchBot.songRequest.deleteSong(songId, callback);
         },
 
-        deleteSong: function (songId, callback) {
+        deleteSong: function (id, callback) {
             $.ajax({
                 url: '/songrequest/delete-song',
-                data: {songId: songId},
+                data: {id: id},
                 dataType: 'json',
                 method: 'post',
                 success: function(response) {
@@ -49,7 +49,7 @@ var twitchBot = twitchBot || {};
                             $currentSongContainer = $('.js-current-song-container'),
                             userLink = '<a href="http://twitch.tv/'+ currentSong.userName +'">'+ currentSong.userName +'</a>';
 
-                        $currentSongContainer.attr('data-song-id', currentSong.songId);
+                        $currentSongContainer.attr('data-song-id', currentSong.id);
                         $currentSongContainer.find('.js-current-song-title').html(currentSong.title);
                         $currentSongContainer.find('.js-current-song-username').html(userLink);
                         $currentSongContainer.find('.js-current-song-date').html(currentSong.date);
@@ -99,10 +99,16 @@ var twitchBot = twitchBot || {};
     }
 
     function deleteSong() {
-        var $deleteButton = $(this);
-        twitchBot.songRequest.deleteSong($deleteButton.attr('data-song-id'), function() {
-            $deleteButton.parents('tr').remove();
-        });
+        var $deleteButton = $(this),
+            songId = $deleteButton.attr('data-song-id');
+
+        if (twitchBot.songRequest.getCurrentSongId() == songId) {
+            twitchBot.youtube.skipSong();
+        } else {    
+            twitchBot.songRequest.deleteSong(songId, function() {
+                $deleteButton.parents('tr').remove();
+            });
+        }           
     }
 
     $(function() {
