@@ -49,7 +49,7 @@ var songRequest = {
     },
 
     updateSong: function(currentSong, skips) {
-        songDao.updateSkip(currentSong.id, currentSong.type, skips);
+        songDao.updateSkip(currentSong.id, skips);
     }
 };
 

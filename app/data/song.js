@@ -19,8 +19,7 @@ var song = {
     updateSkip: function(id, skips, fn) {
         db.run("UPDATE songs SET skips = ? WHERE id = ?;", [
             JSON.stringify(skips),
-            id,
-            type
+            id
         ], function(error) {
             if (!error && fn) {
                 fn();
