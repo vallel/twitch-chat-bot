@@ -39,6 +39,13 @@ twitchBot.youtube = {
         return result;
     },
 
+    getVolume: function(fn) {
+        console.log(fn);
+        if (fn) {
+            fn(player.getVolume());
+        }
+    },
+
     skipSong: function () {
         twitchBot.songRequest.updateCurrentSong(function(song) {
             player.loadVideoById(song.songId);

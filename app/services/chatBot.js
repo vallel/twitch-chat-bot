@@ -53,6 +53,10 @@ var bot = {
     isConnected: function(channel) {
         var index = bot.connectedTo.indexOf(channel);
         return index !== -1;
+    },
+
+    say: function(channel, msg) {
+        client.say(channel, msg);
     }
 };
 
@@ -112,7 +116,9 @@ function init() {
                 var volume = message.replace('!volume', '').trim();
                 if (volume.length && volume >= 0 && volume <= 100) {
                     bot.socketApi.sendMessage('!volume', volume);
-                    client.say(channel, user + " ha cambiado el volumen de la música a " + volume);
+                    client.say(channel, user + " ha cambiado el volumen de la música a " + volume + "%");
+                } else {
+                    bot.socketApi.sendMessage('!getvolume', channel);
                 }
             }
         }

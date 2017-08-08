@@ -15,6 +15,11 @@ var twitchBot = twitchBot || {};
         socket.on('!stop', twitchBot.youtube.stop);
         socket.on('!pause', twitchBot.youtube.pause);
         socket.on('!songrequest', twitchBot.youtube.update);
+        socket.on('!getvolume', function(channel) {
+            twitchBot.youtube.getVolume(function(volume) {
+                socket.emit('!getvolume', {channel: channel, volume:volume});
+            });
+        });
     }
 
     $(function() {
