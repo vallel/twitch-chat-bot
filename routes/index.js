@@ -7,12 +7,12 @@ var botController = require('../app/controllers/bot');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    if (req.session.oauth) {
+    if (req.session.twitchId) {
         res.redirect('/puntos');
     } else {
         res.render('index', {
-            title: 'Twitch Chat Bot',
-            loginPage: true,
+            title: process.env.APP_NAME,
+            notLogged: true,
             clientId: process.env.APP_CLIENT_ID,
             redirectUrl: process.env.APP_AUTH_REDIRECT_URL,
             scope: process.env.APP_AUTH_SCOPE
@@ -21,6 +21,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', loginController.login);
+router.get('/stay-tuned', loginController.stayTuned);
 
 router.post('/join-channel', botController.joinChannel);
 router.post('/leave-channel', botController.leaveChannel);

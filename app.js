@@ -40,8 +40,9 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-    if (req.session.twitchId || req.path === '/' || req.path === '/login') {
+    if (req.session.twitchId || req.path === '/' || req.path === '/login' || req.path === '/stay-tuned') {
         res.locals.isBotConnected = bot.isConnected(req.session.name);
+        res.locals.appName = process.env.APP_NAME;
         next();
     } else {
         res.redirect('/');

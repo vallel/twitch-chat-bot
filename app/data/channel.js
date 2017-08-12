@@ -2,9 +2,12 @@ var sqlite = require('sqlite3').verbose();
 var db = new sqlite.Database('twitchBot.db');
 
 var channel = {
-    add: function(channelName, fn) {
-        db.run("INSERT OR IGNORE INTO channels (name) VALUES ($channel);", {
-            $channel: channelName
+    add: function(channelName, email, active, fn) {
+        active = active || 0;
+        db.run("INSERT OR IGNORE INTO channels (name, email, active) VALUES ($channel, $email, $active);", {
+            $channel: channelName,
+            $email: email,
+            $active: active
         }, function (error) {
             if (error) {
                 console.log(error);

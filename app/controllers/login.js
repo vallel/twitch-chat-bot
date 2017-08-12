@@ -11,16 +11,32 @@ exports.login = function(req, res, next) {
         req.session.oauth = oauthKey;
         req.session.refreshToken = data.refresh_token;
 
-        twitchApi.getUserData(oauthKey, function(data) {
-            req.session.twitchId = data._id;
-            req.session.name = data.name;
-            req.session.displayName = data.displayName;
-            req.session.logo = data.logo;
-            req.session.email = data.email;
+        twitchApi.getUserData(oauthKey, function(userData) {
+            channelDao.get(userData.name, function(channelData) {
+                if (channelData && channelData.active) {
+                    req.session.twitchId = userData._id;
+                    req.session.name = userData.name;
+                    req.session.displayName = userData.displayName;
+                    req.session.logo = userData.logo;
+                    req.session.email = userData.email;
 
-            channelDao.add(data.name);
-
-            res.redirect('/puntos');
+                    res.redirect('/puntos');
+                } else {
+                    if (channelData) {
+                        res.redirect('/stay-tuned');
+                    } else {
+                        channelDao.add(userData.name, userData.email, 0, function() {
+                            res.redirect('/stay-tuned');
+                        });
+                    }
+                }
+            });
         })
+    });
+};
+
+exports.stayTuned = function(req, res, next) {
+    res.render('staytuned.hbs', {
+        notLogged: true
     });
 };
