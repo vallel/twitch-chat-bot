@@ -5,3 +5,4 @@ public/img/
 /app/config.js
 /uploads/
 /twitchBot.db
+.env

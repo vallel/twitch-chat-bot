@@ -1,14 +1,13 @@
-var config = require('../config'),
-    request = require('request');
+var request = require('request');
 
 var twitchApi = {
     oauthLogin: function(code, onError, onSuccess) {
         var url = 'https://api.twitch.tv/kraken/oauth2/token' +
-            '?client_id=' + config.twitchApp.clientId +
-            '&client_secret=' + config.twitchApp.secretKey +
+            '?client_id=' + process.env.APP_CLIENT_ID +
+            '&client_secret=' + process.env.APP_SECRET_KEY +
             '&code=' + code +
             '&grant_type=authorization_code' +
-            '&redirect_uri=' + config.twitchApp.redirectUrl;
+            '&redirect_uri=' + process.env.APP_AUTH_REDIRECT_URL;
 
         request.post(url, function (error, response, body) {
             if (!error && response.statusCode === 200 && onSuccess) {
@@ -23,7 +22,7 @@ var twitchApi = {
         request({
             headers: {
                 'Accept': 'application/vnd.twitchtv.v5+json',
-                'Client-ID': config.twitchApp.clientId,
+                'Client-ID': process.env.APP_CLIENT_ID,
                 'Authorization': 'OAuth ' + oauthKey
             },
             uri: 'https://api.twitch.tv/kraken/user'

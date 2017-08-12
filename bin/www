@@ -4,6 +4,8 @@
  * Module dependencies.
  */
 
+var env = require('dotenv').config();
+
 var app = require('../app');
 var debug = require('debug')('twitch-chat-bot:server');
 var http = require('http');

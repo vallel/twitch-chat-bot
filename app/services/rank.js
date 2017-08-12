@@ -2,8 +2,7 @@ var request = require('request');
 var csv = require('csv');
 var fs = require('fs');
 var pointsDao = require('../data/points');
-var appConfig = require('../config'),
-    moment = require('moment'),
+var moment = require('moment'),
     chat = require('./chat');
 
 var rank = {
@@ -43,7 +42,7 @@ var rank = {
     },
 
     getRanking: function(channel, callback) {
-        var noShowUsers = [appConfig.twitchChannel, appConfig.botOauth.username];
+        var noShowUsers = [channel, process.env.BOT_USERNAME];
         pointsDao.getFiltered(channel, noShowUsers, callback);
     },
 

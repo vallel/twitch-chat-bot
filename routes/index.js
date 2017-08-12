@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var config = require('../app/config');
 
 var loginController = require('../app/controllers/login');
 var songRequestController = require('../app/controllers/songRequest');
@@ -14,9 +13,9 @@ router.get('/', function(req, res, next) {
         res.render('index', {
             title: 'Twitch Chat Bot',
             loginPage: true,
-            clientId: config.twitchApp.clientId,
-            redirectUrl: config.twitchApp.redirectUrl,
-            scope: config.twitchApp.scope
+            clientId: process.env.APP_CLIENT_ID,
+            redirectUrl: process.env.APP_AUTH_REDIRECT_URL,
+            scope: process.env.APP_AUTH_SCOPE
         });
     }
 });

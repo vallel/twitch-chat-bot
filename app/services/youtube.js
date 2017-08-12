@@ -1,5 +1,4 @@
 var request = require('request');
-var appConfig = require('../config');
 
 var searchApiUrl = 'https://www.googleapis.com/youtube/v3/search';
 
@@ -33,7 +32,7 @@ function getSearchUrl(query, maxResults) {
         'part=snippet',
         'type=video',
         'videoDuration=medium',
-        'key=' + appConfig.youtube.apiKey
+        'key=' + process.env.YOUTUBE_API_KEY
     ];
 
     if (maxResults) {

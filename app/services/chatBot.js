@@ -1,5 +1,4 @@
 var tmi = require('tmi.js');
-var appConfig = require('../config');
 var songRequest = require('./songRequest');
 var rank = require('./rank');
 var gamble = require('./gamble');
@@ -15,8 +14,8 @@ var config = {
         reconnect: true
     },
     identity: {
-        username: appConfig.botOauth.username,
-        password: appConfig.botOauth.oAuthKey
+        username: process.env.BOT_USERNAME,
+        password: process.env.BOT_OAUTH_KEY
     },
     channels: []
 };
