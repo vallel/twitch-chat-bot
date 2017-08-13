@@ -35,6 +35,12 @@ exports.login = function(req, res, next) {
     });
 };
 
+exports.logout = function(req, res, next) {
+    req.session.destroy(function() {
+        res.redirect('/');
+    });
+};
+
 exports.stayTuned = function(req, res, next) {
     res.render('staytuned.hbs', {
         notLogged: true

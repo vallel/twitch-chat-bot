@@ -36,6 +36,9 @@
             {{/unless}}
           </ul>
           {{#unless notLogged }}
+          <form class="navbar-form navbar-right" action="/logout" method="post">
+            <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+          </form>
           <form class="navbar-form navbar-right" action="{{#if isBotConnected}}/leave-channel{{else}}/join-channel{{/if}}" method="post">
             <button type="submit" class="btn btn-{{#if isBotConnected}}danger{{else}}primary{{/if}}">{{#if isBotConnected}}Salir del chat{{else}}Unirse al chat{{/if}}</button>
           </form>

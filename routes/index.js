@@ -21,6 +21,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', loginController.login);
+router.post('/logout', loginController.logout);
 router.get('/stay-tuned', loginController.stayTuned);
 
 router.post('/join-channel', botController.joinChannel);
