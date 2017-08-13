@@ -71,6 +71,21 @@ var command = {
                 });
             }
         });
+    },
+
+    delete: function(channel, name, fn) {
+        channelDao.get(channel, function(channelData) {
+            db.run("DELETE FROM commands WHERE channelId = $channelId AND name = $name AND `default` = 0;", {
+                $channelId: channelData.id,
+                $name: name
+            }, function(error) {
+                if (error) {
+                    console.log(error);
+                } else if (fn) {
+                    fn();
+                }
+            });
+        });
     }
 };
 

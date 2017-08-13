@@ -2,8 +2,12 @@ var command = require('../services/command');
 
 exports.index = function(req, res, next) {
     command.getList(req.session.name, false, function (commands) {
+        var msg = req.session.msg;
+        req.session.msg = null;
+        
         res.render('commands', {
-            'commands': commands
+            'commands': commands,
+            msg: msg
         });
     });
 };
@@ -36,4 +40,14 @@ exports.saveGamble = function(req, res, next) {
     } else {
         res.redirect('/puntos');
     }
+};
+
+exports.delete = function(req, res, next) {
+    var commandName = req.params.commandName,
+        channel = req.session.name;
+    
+    command.delete(channel, commandName, function() {
+        req.session.msg = 'El comando <strong>!'+ commandName +'</strong> ha sido borrado.';
+        res.redirect('/comandos');
+    });
 };

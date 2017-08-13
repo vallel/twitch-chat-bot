@@ -26,6 +26,10 @@ var command = {
 
     getConfig: function(channel, command, key, callback) {
         cmdConfigDao.get(channel, command, key, callback)
+    },
+
+    delete: function(channel, commandName, callback) {
+        commandDao.delete(channel, commandName, callback);
     }
 };
 

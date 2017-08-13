@@ -37,7 +37,9 @@ app.use(sassMiddleware({
   indentedSyntax: true, // true = .sass and false = .scss
   sourceMap: true
 }));
+
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/swal', express.static(path.join(__dirname, 'node_modules/sweetalert/dist')));
 
 app.use(function(req, res, next) {
     if (req.session.twitchId || req.path === '/' || req.path === '/login' || req.path === '/stay-tuned') {
