@@ -1,5 +1,5 @@
 var sqlite = require('sqlite3').verbose();
-var db = new sqlite.Database('twitchBot.db');
+var db = new sqlite.Database(process.env.SQLITE_DB_PATH);
 var channelDao = require('./channel');
 
 var commandConfig = {
