@@ -31,6 +31,37 @@ var twitchApi = {
                 onSuccess(JSON.parse(body));
             }
         });
+    },
+
+    getStreamData: function(oauthKey, onSuccess) {
+        twitchApi.getChannelData(oauthKey, function(channelData) {
+            request({
+                headers: {
+                    'Accept': 'application/vnd.twitchtv.v5+json',
+                    'Client-ID': process.env.APP_CLIENT_ID
+                },
+                uri: 'https://api.twitch.tv/kraken/streams/' + channelData._id
+            }, function(error, response, body) {
+                if (!error && response.statusCode === 200 && onSuccess) {
+                    onSuccess(JSON.parse(body));
+                }
+            });
+        });
+    },
+
+    getChannelData: function(oauthKey, onSuccess) {
+        request({
+            headers: {
+                'Accept': 'application/vnd.twitchtv.v5+json',
+                'Client-ID': process.env.APP_CLIENT_ID,
+                'Authorization': 'OAuth ' + oauthKey
+            },
+            uri: 'https://api.twitch.tv/kraken/channel'
+        }, function(error, response, body) {
+            if (!error && response.statusCode === 200 && onSuccess) {
+                onSuccess(JSON.parse(body));
+            }
+        });
     }
 };
 

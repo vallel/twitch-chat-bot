@@ -1,9 +1,11 @@
-var tmi = require('tmi.js');
-var songRequest = require('./songRequest');
-var rank = require('./rank');
-var gamble = require('./gamble');
-var command = require('./command');
-var chat = require('./chat');
+var tmi = require('tmi.js'),
+    songRequest = require('./songRequest'),
+    rank = require('./rank'),
+    gamble = require('./gamble'),
+    command = require('./command'),
+    chat = require('./chat'),
+    twitchApi = require('./twitchApi'),
+    moment = require('moment');
 
 var config = {
     options: {
@@ -27,6 +29,8 @@ var bot = {
     
     connectedTo: [],
 
+    oauthKeys: {},
+
     connect: function () {
         client = new tmi.client(config);
         client.connect();
@@ -34,17 +38,19 @@ var bot = {
         init();
     },
 
-    join: function(channel) {
+    join: function(channel, oauthKey) {
         if (!bot.isConnected(channel)) {
             client.join(channel);
             rank.init(channel);
             bot.connectedTo.push(channel);
+            bot.oauthKeys[channel] = oauthKey; 
         }
     },
 
     part: function(channel) {
         if (bot.isConnected(channel)) {
             client.part(channel);
+            bot.oauthKeys[channel] = null;
             bot.connectedTo.splice(bot.connectedTo.indexOf(channel), 1);
         }
     },
@@ -71,6 +77,18 @@ function init() {
 
         var user = userstate['display-name'].toLowerCase();
         channel = channel.replace('#', '');
+
+        if (message.indexOf('!uptime') === 0) {
+            twitchApi.getStreamData(bot.oauthKeys[channel], function(streamData) {
+                if (streamData && streamData.created_at) {
+                    var nowUtc = moment().utc(),
+                        streamStarted = moment().utc(streamData.created_at);
+                    var elapsed = moment.duration(nowUtc.diff(streamStarted)),
+                        elapsedTime = elapsed._data.hours +' horas y '+ elapsed._data.minutes +' minutos';
+                    client.say(channel, 'El stream lleva ' + elapsedTime + ' en linea.');
+                }
+            });
+        }
 
         if (message.indexOf('!songrequest') === 0 || message.indexOf('!sr') === 0) {
             var query = message.replace('!songrequest', '').trim();
