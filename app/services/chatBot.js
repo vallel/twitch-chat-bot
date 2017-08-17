@@ -80,11 +80,13 @@ function init() {
 
         if (message.indexOf('!uptime') === 0) {
             twitchApi.getStreamData(bot.oauthKeys[channel], function(streamData) {
-                if (streamData && streamData.created_at) {
-                    var nowUtc = moment().utc(),
-                        streamStarted = moment().utc(streamData.created_at);
-                    var elapsed = moment.duration(nowUtc.diff(streamStarted)),
-                        elapsedTime = elapsed._data.hours +' horas y '+ elapsed._data.minutes +' minutos';
+                if (streamData && streamData.stream) {
+                    var nowUtc = moment.utc().format(),
+                        streamStarted = moment.utc(streamData.stream.created_at).format(),
+                        elapsed = moment.duration(moment(nowUtc).diff(streamStarted)),
+                        elapsedTime = elapsed._data.hours > 0 ? elapsed._data.hours +' hora(s) y ' : '';
+                        elapsedTime += elapsed._data.minutes +' minutos';
+
                     client.say(channel, 'El stream lleva ' + elapsedTime + ' en linea.');
                 }
             });
