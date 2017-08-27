@@ -6,7 +6,7 @@
 <div class="alert alert-success" role="alert">{{{msg}}}</div>
 {{/if}}
 
-<button class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#command">Crear comando</button>
+<button class="btn btn-primary btn-lg pull-right btn-create-cmd" data-toggle="modal" data-target="#command">Crear comando</button>
 
 <div class="panel">
     <table class="table cmd-list">
@@ -23,7 +23,11 @@
                 <tr class="{{#if default}}active{{/if}}">
                     <td>!{{name}}</td>
                     <td>{{message}}</td>
-                    <td>{{enabled}}</td>
+                    <td>
+                        <span class="label label-{{#if enabled }}success{{else}}default{{/if}}">
+                            <span class="glyphicon {{#if enabled }}glyphicon-ok-circle{{else}}glyphicon-ban-circle{{/if}}"></span>
+                        </span>
+                    </td>
                     <td>
                         <a href="#editar" data-name="{{name}}" class="btn btn-default btn-sm btn-edit-cmd">
                             <span class="glyphicon glyphicon-pencil"></span>
@@ -41,7 +45,8 @@
 <!-- Modal -->
 <div class="modal fade" id="command" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form action="/comandos/nuevo" method="post" class="modal-content form-horizontal">
+        <form action="/comandos/guardar" method="post" class="modal-content form-horizontal">
+            <input type="hidden" id="commandId" name="commandId" value="">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Crear comando</h4>
@@ -63,7 +68,7 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" checked="checked" name="commandEnabled"> Comando habilitado
+                                <input type="checkbox" checked="checked" id="commandEnabled" name="commandEnabled"> Comando habilitado
                             </label>
                         </div>
                     </div>

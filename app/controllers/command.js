@@ -12,16 +12,31 @@ exports.index = function(req, res, next) {
     });
 };
 
-exports.create = function(req, res, next) {
+exports.get = function(req, res, next) {
     var channel = req.session.name,
+        commandName = req.params.commandName;
+
+    command.get(channel, commandName, function(data) {
+        res.send({
+            success:true,
+            data: data
+        });
+    });
+};
+
+exports.save = function(req, res, next) {
+    var channel = req.session.name,
+        id = req.body.commandId,
         commandName = req.body.commandName,
         message = req.body.commandMessage,
         enabled = req.body.commandEnabled;
 
-    if (commandName && message && enabled) {
+    if (commandName) {
         command.save(channel, commandName, message, enabled, false, function() {
             res.redirect('/comandos');
         });
+    } else {
+        res.redirect('/comandos');
     }
 };
 
