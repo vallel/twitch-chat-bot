@@ -3,7 +3,7 @@ var twitchBot = twitchBot || {};
 (function($, io) {
     twitchBot.socketApi = {
         init: function() {
-            var socket = io.connect('http://localhost:3000/');
+            var socket = io.connect(window.location.host);
             wireEvents(socket);
         }
     };
