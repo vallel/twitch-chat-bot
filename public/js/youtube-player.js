@@ -1,13 +1,19 @@
 var twitchBot = twitchBot || {};
 var player;
 
-function onYouTubeIframeAPIReady() {
+function getPlayer() {
     player = new YT.Player('js-youtube-player', {
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
         }
     });
+
+    return player;
+}
+
+function onYouTubeIframeAPIReady() {
+    player = getPlayer();
 }
 
 function onPlayerReady(event) {
@@ -48,6 +54,9 @@ twitchBot.youtube = {
 
     skipSong: function () {
         twitchBot.songRequest.updateCurrentSong(function(song) {
+            if (!player) {
+                player = getPlayer();
+            }
             player.loadVideoById(song.songId);
         });
     },

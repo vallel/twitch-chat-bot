@@ -95,7 +95,7 @@ var twitchBot = twitchBot || {};
 
     function wireEvents() {
         $('.js-song-request-skip').click(twitchBot.youtube.skipSong);
-        $('.js-song-request-delete').click(deleteSong);
+        $('.js-song-request-playlist').on('click', '.js-song-request-delete', deleteSong);
     }
 
     function deleteSong() {
