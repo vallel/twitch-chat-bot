@@ -5,6 +5,8 @@ public/img/
 /app/config.js
 /uploads/
 /twitchBot.db
+db/db-seed.js
+db/twitchBot.db
 .env
 
 # Elastic Beanstalk Files

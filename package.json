@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "start http://localhost:3000 && nodemon ./bin/www",
-    "start-debug": "node-debug ./bin/www && start http://localhost:3000"
+    "start-debug": "node-debug ./bin/www && start http://localhost:3000",
+    "create-db": "node ./db/create-db.js",
+    "install": "npm create-db"
   },
   "dependencies": {
     "body-parser": "~1.17.1",

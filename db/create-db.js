@@ -2,6 +2,7 @@ var sqlite = require('sqlite3').verbose();
 var db = new sqlite.Database('twitchBot.db');
 
 db.serialize(function() {
+    // create tables
     db.run("CREATE TABLE IF NOT EXISTS channels ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL UNIQUE, `active` INTEGER NOT NULL DEFAULT 0, `email` TEXT )");
     db.run("CREATE TABLE IF NOT EXISTS points ( `channelId` INTEGER NOT NULL, `userName` TEXT, `points` INTEGER, `lastGamble` TEXT, PRIMARY KEY(`channelId`,`userName`) )");
     db.run("CREATE TABLE IF NOT EXISTS songs (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `channelId` INTEGER NOT NULL, `songId` TEXT, `type` TEXT, `title` TEXT, `date` TEXT, `userName` TEXT, `query` TEXT, `skips` TEXT );");

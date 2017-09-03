@@ -24,9 +24,7 @@ var twitchBot = twitchBot || {};
             $modal.find('#commandId').val(data.id);
             $modal.find('#commandName').val(data.name);
             $modal.find('#commandMessage').val(data.message);
-            if (data.enabled == 'on') {
-                $modal.find('#commandEnabled').attr('checked', 'checked');
-            }
+            $modal.find('#commandEnabled').prop('checked', data.enabled ? 'checked' : false);
             $modal.modal('show');
         });
     }
