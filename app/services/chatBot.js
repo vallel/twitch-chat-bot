@@ -75,7 +75,7 @@ function init() {
         // Don't listen to my own messages..
         if (self) return;
 
-        var user = userstate['display-name'].toLowerCase();
+        var user = userstate['username'].toLowerCase();
         channel = channel.replace('#', '');
 
         if (message.indexOf('!uptime') === 0) {
